@@ -7,13 +7,14 @@ myText(
   double? width,
   EdgeInsets? padding,
   EdgeInsets? margin,
+  List<Shadow>? shadows,
   AlignmentGeometry alignment = Alignment.center,
   Color? background,
   Color? selectionColor = Colors.indigo,
   Decoration? decoration,
   int? maxLines,
   int? minLines,
-  double? fontsize = 12,
+  double? fontsize,
   String? fontFamily = 'RobotoSlab',
   Color? color,
   FontStyle? fontStyle = FontStyle.normal,
@@ -42,6 +43,7 @@ myText(
             style: (textStyle != null)
                 ? textStyle
                 : TextStyle(
+                    shadows: shadows,
                     fontSize: fontsize,
                     fontFamily: fontFamily,
                     color: color,

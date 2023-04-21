@@ -1,7 +1,9 @@
-import 'dart:developer';
+import 'package:flutter/material.dart';
 
-Map<String, dynamic> menu = {
-  'home': () => log('Home'),
-  'Abut us': () => log('Home'),
-  'Contact': () => log('Home'),
+Map<String, IconData> menu = {
+  'home': (Icons.home),
+  'Abut us': (Icons.abc_outlined),
+  'Contact': (Icons.home),
+  'experience': (Icons.home),
+  'work': (Icons.home),
 };

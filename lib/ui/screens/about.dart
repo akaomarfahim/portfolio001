@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_final_omar/constants/global_keys.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
+import '../../constants/global_keys.dart';
 
 class About extends StatefulWidget {
   const About({super.key});
@@ -13,17 +13,23 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(40),
+      child: SingleChildScrollView(
         key: MyGlobalKey.aboutKey,
-        height: MediaQuery.of(context).size.height,
-        margin: const EdgeInsets.all(20),
-        alignment: Alignment.center,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            myText('Under Construction\nAbout Page', fontsize: 34, color: Colors.white, fontWeight: FontWeight.bold),
-            myText('Under Construction\nAbout Page', fontsize: 34, color: Colors.white, fontWeight: FontWeight.bold),
-            myText('Under Construction\nAbout Page', fontsize: 34, color: Colors.white, fontWeight: FontWeight.bold),
-            myText('Under Construction\nAbout Page', fontsize: 34, color: Colors.white, fontWeight: FontWeight.bold),
+            myText(
+              'About Me',
+              alignment: Alignment.centerLeft,
+              color: Colors.grey.shade200,
+              fontsize: 24,
+              fontWeight: FontWeight.w500,
+            )
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
