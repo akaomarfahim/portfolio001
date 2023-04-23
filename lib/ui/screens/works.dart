@@ -20,7 +20,7 @@ class _WorksState extends State<Works> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(40),
+      padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
       // color: Colors.white,
       child: SingleChildScrollView(
         key: MyGlobalKey.worksKey,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_final_omar/providers/screen_provider.dart';
+import 'package:portfolio_final_omar/ui/home/menu.dart';
 import 'package:portfolio_final_omar/utils/__colors.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../constants/screen.dart';
-import 'menu.dart';
 
 class Portfolio extends StatefulWidget {
   const Portfolio({super.key});
@@ -14,45 +15,126 @@ class Portfolio extends StatefulWidget {
 }
 
 class _PortfolioState extends State<Portfolio> {
-  bool showNavBar = true;
-  bool navBarVisible = true;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: Stack(children: [
-          IconButton(
-              onPressed: () => setState(() {
-                    showNavBar = !showNavBar;
-                  }),
-              icon: const Icon(Icons.menu, color: MyColors.accent)),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              AnimatedScale(
+        body: ScreenTypeLayout.builder(
+          desktop: (context) => const PortfolioDesktop(),
+          tablet: (context) => const PortfolioTablet(),
+          mobile: (context) => const PortfolioMobile(),
+        ));
+  }
+}
+
+class PortfolioDesktop extends StatefulWidget {
+  const PortfolioDesktop({super.key});
+
+  @override
+  State<PortfolioDesktop> createState() => _PortfolioDesktopState();
+}
+
+class _PortfolioDesktopState extends State<PortfolioDesktop> {
+  bool showNavBar = true;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AnimatedScale(
+              duration: const Duration(milliseconds: 600),
+              scale: showNavBar ? 1 : 0,
+              alignment: Alignment.center,
+              child: AnimatedContainer(
                   duration: const Duration(milliseconds: 600),
-                  scale: showNavBar ? 1 : 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                   alignment: Alignment.center,
-                  child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 600),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-                      alignment: Alignment.center,
-                      width: showNavBar ? Screen.width(context) * 0.30 : 100,
-                      height: MediaQuery.of(context).size.height,
-                      onEnd: () => setState(() => navBarVisible = showNavBar),
-                      child: AnimatedOpacity(duration: const Duration(milliseconds: 450), opacity: showNavBar ? 1 : 0, child: const Navbar()))),
-              Expanded(child: context.watch<ScreenProvider>().page)
-            ],
-          ),
-        ]));
+                  width: showNavBar ? Screen.width(context) * 0.20 : 0,
+                  child: AnimatedOpacity(duration: const Duration(milliseconds: 450), opacity: showNavBar ? 1 : 0, child: const Navbar()))),
+          Expanded(child: context.watch<ScreenProvider>().page)
+        ],
+      ),
+      IconButton(onPressed: () => setState(() => showNavBar = !showNavBar), icon: const Icon(Icons.menu, color: MyColors.accent)),
+    ]);
+  }
+}
+
+class PortfolioTablet extends StatefulWidget {
+  const PortfolioTablet({super.key});
+
+  @override
+  State<PortfolioTablet> createState() => _PortfolioTabletState();
+}
+
+class _PortfolioTabletState extends State<PortfolioTablet> {
+  bool showNavBar = true;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AnimatedScale(
+              duration: const Duration(milliseconds: 600),
+              scale: showNavBar ? 1 : 0,
+              alignment: Alignment.center,
+              child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 600),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                  alignment: Alignment.center,
+                  width: showNavBar ? Screen.width(context) * 0.30 : 0,
+                  child: AnimatedOpacity(duration: const Duration(milliseconds: 450), opacity: showNavBar ? 1 : 0, child: const Navbar()))),
+          Expanded(child: context.watch<ScreenProvider>().page)
+        ],
+      ),
+      IconButton(onPressed: () => setState(() => showNavBar = !showNavBar), icon: const Icon(Icons.menu, color: MyColors.accent)),
+    ]);
+  }
+}
+
+class PortfolioMobile extends StatefulWidget {
+  const PortfolioMobile({super.key});
+
+  @override
+  State<PortfolioMobile> createState() => _PortfolioMobileState();
+}
+
+class _PortfolioMobileState extends State<PortfolioMobile> {
+  bool showNavBar = false;
+
+  @override
+  Widget build(BuildContext context) {
+    showNavBar = context.watch<ScreenProvider>().menuVisibleState;
+    return Stack(children: [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (showNavBar)
+            AnimatedScale(
+                duration: const Duration(milliseconds: 600),
+                scale: showNavBar ? 1 : 0,
+                alignment: Alignment.center,
+                child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 600),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                    alignment: Alignment.center,
+                    width: Screen.width(context),
+                    // width: showNavBar ? Screen.width(context) * 0.20 : 0,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 450),
+                      opacity: showNavBar ? 1 : 0,
+                      child: const Navbar(),
+                    ))),
+          if (!showNavBar) Expanded(child: context.watch<ScreenProvider>().page)
+        ],
+      ),
+      IconButton(onPressed: () => setState(() => context.read<ScreenProvider>().setMenuVisible(!showNavBar)), icon: const Icon(Icons.menu, color: MyColors.accent)),
+    ]);
   }
 }

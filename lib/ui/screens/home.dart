@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_final_omar/constants/global_keys.dart';
 import 'package:portfolio_final_omar/constants/root.dart';
 import 'package:portfolio_final_omar/utils/__colors.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__hover.dart';
@@ -26,10 +25,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      // color: Colors.red,
       alignment: Alignment.center,
       child: SingleChildScrollView(
-        key: MyGlobalKey.homeKey,
+        // key: MyGlobalKey.homeKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

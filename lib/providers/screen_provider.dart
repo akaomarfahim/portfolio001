@@ -8,6 +8,7 @@ import '../ui/screens/works.dart';
 class ScreenProvider with ChangeNotifier {
   int selectedPageIndex = 0;
   Widget page = const Home();
+  bool menuVisibleState = true;
 
   static List<Widget> pages = [
     const Home(),
@@ -16,6 +17,11 @@ class ScreenProvider with ChangeNotifier {
     const About(),
     const Works(),
   ];
+
+  setMenuVisible(bool visible) {
+    menuVisibleState = visible;
+    notifyListeners();
+  }
 
   setPage(Widget widget) {
     page = widget;
