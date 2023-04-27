@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1030284041228",
+    "firebase_url": "https://portfolio-d35f0-default-rtdb.firebaseio.com",
+    "project_id": "portfolio-d35f0",
+    "storage_bucket": "portfolio-d35f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030284041228:android:367ff2677a390442486229",
+        "android_client_info": {
+          "package_name": "com.akaomarfahim.portfolio.portfolio_final_omar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030284041228-2vspqkrt9cs3ajomvsjdgkjejans0i2s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-yVe1wD6pUAfYGzawrhRXRaH303Oxxp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030284041228-2vspqkrt9cs3ajomvsjdgkjejans0i2s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1030284041228-unv7pquktli70s5jl8j3orck16n250q2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.akaomarfahim.portfolio.portfolioFinalOmar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -61,6 +61,8 @@ myLinearLoader(
     Padding(
       padding: padding,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: EdgeInsets.only(bottom: percentageGap),

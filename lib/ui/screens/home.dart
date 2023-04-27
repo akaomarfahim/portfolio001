@@ -1,9 +1,12 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:portfolio_final_omar/constants/root.dart';
+import 'package:portfolio_final_omar/ui/screens/splash_screen.dart';
 import 'package:portfolio_final_omar/utils/__colors.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__hover.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import '../../models/profile_model.dart';
+import '../../utils/listtostring_stringtolist.dart';
 import '../../widgets/widget_default/__button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,56 +19,84 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isLoadingComplete = false;
+  List<String> animatedTextList = ['Flutter Developer', 'Full-Stack Developer', 'Photography Lover', 'Dreamer'];
+  late ProfileModel profile;
+
   @override
   void initState() {
     super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    if (mounted) setState(() => isLoadingComplete = false);
+    log('INIT Firebase');
+
+    profile = await ProfileModel.getData();
+    if (profile.animatedTexts.isNotEmpty) {
+      animatedTextList.clear();
+      animatedTextList = await stringtoList(string: profile.animatedTexts, breaker: ',');
+    }
+
+    if (mounted) setState(() => isLoadingComplete = true);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height,
-      alignment: Alignment.center,
-      child: SingleChildScrollView(
-        // key: MyGlobalKey.homeKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-                radius: 50,
-                backgroundColor: MyColors.accent,
-                // backgroundImage: const ExactAssetImage('asset/images/avatar.png'),
-                child: Padding(padding: const EdgeInsets.all(4), child: ClipRRect(borderRadius: BorderRadius.circular(100), child: Image.asset('asset/images/avatar.png')))),
-            const SizedBox(height: 10),
-            myText('OMAR FAHIM', fontsize: 20, fontFamily: 'Rubik', fontWeight: FontWeight.bold, color: Colors.white),
-            myText(
-              'Full-Stack Flutter Developer',
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              fontsize: 12,
-              fontFamily: 'SofiaSans',
-              fontWeight: FontWeight.normal,
-              color: Colors.grey.shade200,
-            ),
-            const SizedBox(height: 10),
-            animatedTextAboutMe(),
-            const SizedBox(height: 20),
-            const ScoialIconSection(),
-            const SizedBox(height: 40),
-            Wrap(
-              alignment: WrapAlignment.center,
-              runSpacing: 10,
-              spacing: 10,
-              children: [
-                // hireMeButton('View CV', () => launchUrl(Uri.parse(ROOT.cvUrlView))),
-                hireMeButton('Download CV', () => launchUrl(Uri.parse(ROOT.cvUrlDownload))),
-                hireMeButton('Hire me', () {}),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+        height: MediaQuery.of(context).size.height,
+        alignment: Alignment.center,
+        child: !isLoadingComplete
+            ? const SplashScreen()
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset('asset/images/home_bg.gif', height: double.infinity, width: double.infinity, fit: BoxFit.cover),
+                  Container(height: double.infinity, width: double.infinity, color: MyColors.primary.withOpacity(0.9)),
+                  SingleChildScrollView(
+                      // key: MyGlobalKey.homeKey,
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                          radius: 50,
+                          backgroundColor: MyColors.accent,
+                          // backgroundImage: const ExactAssetImage('asset/images/avatar.png'),
+                          child: Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                // child: Image.network(
+                                //   ProfileModel.profile.imageUrl ?? FirebaseDataRoot.imageErrorLink,
+                                //   height: 100,
+                                // ),
+                                child: Image.asset('asset/images/avatar.png'),
+                              ))),
+                      const SizedBox(height: 10),
+                      myText(profile.name, fontsize: 20, fontFamily: 'Rubik', fontWeight: FontWeight.bold, color: Colors.white),
+                      myText(profile.tagLine,
+                          padding: const EdgeInsets.symmetric(vertical: 10), fontsize: 12, fontFamily: 'SofiaSans', fontWeight: FontWeight.normal, color: Colors.grey.shade200),
+                      const SizedBox(height: 10),
+                      animatedTextAboutMe(),
+                      const SizedBox(height: 20),
+                      ScoialIconSection(profile: profile),
+                      const SizedBox(height: 40),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        runSpacing: 10,
+                        spacing: 10,
+                        children: [
+                          // hireMeButton('View CV', () => launchUrl(Uri.parse(ROOT.cvUrlView))),
+                          hireMeButton('Download CV', () => launchUrl(Uri.parse(profile.downloadCv))),
+                          hireMeButton('Hire me', () => launchUrl(Uri.parse(profile.hireMe))),
+                        ],
+                      )
+                    ],
+                  ))
+                ],
+              ));
   }
 
   animatedTextAboutMe() {
@@ -77,10 +108,7 @@ class _HomeState extends State<Home> {
         Text('I\'m a ', style: textStyle),
         AnimatedTextKit(
           animatedTexts: [
-            TypewriterAnimatedText('Flutter Developer', textStyle: textStyle),
-            TypewriterAnimatedText('Full-Stack Developer', textStyle: textStyle),
-            TypewriterAnimatedText('Photography Lover', textStyle: textStyle),
-            TypewriterAnimatedText('Dreamer', textStyle: textStyle),
+            for (int i = 0; i < animatedTextList.length; i++) ...[TypewriterAnimatedText(animatedTextList[i], textStyle: textStyle)]
           ],
           displayFullTextOnTap: true,
           isRepeatingAnimation: true,
@@ -112,18 +140,20 @@ class _HomeState extends State<Home> {
 }
 
 class ScoialIconSection extends StatelessWidget {
-  const ScoialIconSection({super.key});
+  final ProfileModel profile;
+  const ScoialIconSection({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
     return Wrap(alignment: WrapAlignment.center, runAlignment: WrapAlignment.center, spacing: 0, children: [
-      socialIcon(FontAwesomeIcons.linkedin, 'http://facebook.com/omarfahimofficial'),
-      socialIcon(FontAwesomeIcons.github, 'https://github.com/akaomarfahim'),
-      socialIcon(FontAwesomeIcons.squareFacebook, 'http://facebook.com/omarfahimofficial'),
-      socialIcon(FontAwesomeIcons.twitter, 'http://facebook.com/omarfahimofficial'),
-      socialIcon(FontAwesomeIcons.dribbble, 'http://facebook.com/omarfahimofficial'),
-      socialIcon(FontAwesomeIcons.pinterest, 'http://facebook.com/omarfahimofficial'),
-      socialIcon(FontAwesomeIcons.squareBehance, 'http://facebook.com/omarfahimofficial'),
+      socialIcon(FontAwesomeIcons.linkedin, profile.linkdInLink),
+      socialIcon(FontAwesomeIcons.github, profile.github),
+      socialIcon(FontAwesomeIcons.squareFacebook, profile.facebook),
+      socialIcon(FontAwesomeIcons.instagram, profile.instagram),
+      socialIcon(FontAwesomeIcons.twitter, profile.twitter),
+      socialIcon(FontAwesomeIcons.dribbble, profile.dribble),
+      socialIcon(FontAwesomeIcons.pinterest, profile.pinterest),
+      socialIcon(Icons.coffee, profile.coffee),
     ]);
   }
 }

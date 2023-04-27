@@ -4,7 +4,7 @@ import 'package:portfolio_final_omar/utils/__colors.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__hover.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
 import 'package:provider/provider.dart';
-import '../../constants/menu.dart';
+import '../../constants/menu_items.dart';
 import '../../providers/screen_provider.dart';
 
 class Navbar extends StatefulWidget {

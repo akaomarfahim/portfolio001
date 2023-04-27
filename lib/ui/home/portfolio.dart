@@ -5,7 +5,7 @@ import 'package:portfolio_final_omar/utils/__colors.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import '../../constants/screen.dart';
+import '../../utils/__screen.dart';
 
 class Portfolio extends StatefulWidget {
   const Portfolio({super.key});
@@ -22,7 +22,7 @@ class _PortfolioState extends State<Portfolio> {
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: ScreenTypeLayout.builder(
-          desktop: (context) => const PortfolioDesktop(),
+          desktop: (context) => const SelectionArea(child: PortfolioDesktop()),
           tablet: (context) => const PortfolioTablet(),
           mobile: (context) => const PortfolioMobile(),
         ));
