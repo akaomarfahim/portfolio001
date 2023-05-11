@@ -25,7 +25,7 @@ myCheckBoxListBuilder({
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (label != null) myText(label, fontFamily: labelFontFamily, alignment: Alignment.centerLeft, fontWeight: FontWeight.w500, fontsize: labelFontSize, padding: labelPadding),
+        if (label != null) MyText(label, alignment: Alignment.centerLeft, padding: labelPadding),
         Container(
             padding: padding,
             margin: margin,
@@ -33,14 +33,12 @@ myCheckBoxListBuilder({
             decoration: BoxDecoration(color: boxBackground, borderRadius: BorderRadius.circular(borderRadius)),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               if (description != null)
-                myText(description,
-                    fontFamily: 'Ubuntu',
-                    fontWeight: FontWeight.w400,
-                    padding: const EdgeInsets.fromLTRB(10, 10, 4, 4),
-                    alignment: Alignment.centerLeft,
-                    maxLines: 3,
-                    fontsize: 10,
-                    color: Colors.black54),
+                MyText(
+                  description,
+                  padding: const EdgeInsets.fromLTRB(10, 10, 4, 4),
+                  alignment: Alignment.centerLeft,
+                  maxLines: 3,
+                ),
               ListView.builder(
                   shrinkWrap: true,
                   itemCount: listItems.length,
@@ -65,7 +63,7 @@ myCheckBoxListBuilder({
                           // userProfileAccessBool.update(userProfileAccessBool.keys.elementAt(index), (val) => value);
                           // newUserAccess = UserAccessModel.fromMap(userProfileAccessBool);
                         },
-                        title: myText(listItems.keys.elementAt(index),
+                        title: MyText(listItems.keys.elementAt(index),
                             // maxFontSize: 12,
                             maxLines: 1,
                             // stepGranularity: 0.1,

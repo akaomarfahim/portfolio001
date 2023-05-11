@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              myText('Welcome'),
+              MyText('OMAR FAHIM', fontFamily: 'RubikMoonrocks', fontSize: 22, textColor: Colors.white),
               const SizedBox(height: 10),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 500),

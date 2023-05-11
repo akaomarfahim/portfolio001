@@ -22,10 +22,10 @@ class _ServicesState extends State<Services> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            myText(
+            MyText(
               'Under Construction\nServices Page',
-              fontsize: 34,
-              color: Colors.white,
+              fontSize: 34,
+              textColor: Colors.white,
               fontWeight: FontWeight.bold,
             )
           ],

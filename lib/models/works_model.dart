@@ -5,100 +5,113 @@ import 'dart:developer';
 import 'package:firebase_database/firebase_database.dart';
 
 import 'package:portfolio_final_omar/firebase_options.dart';
+import 'package:portfolio_final_omar/widgets/widget_default/__toast.dart';
 
 class WorksModel {
   static List<WorksModel> items = [];
 
-  String title;
-  String tagLine;
-  String category;
-  String projectDuration;
-  String projectPlatform;
-  String applicationFrame;
-  String imageUrl;
-  String description;
-  String publisedDate;
-  String urlDownload;
-  String urlLiveDemo;
-  String urlPlayStore;
-  String urlAppleStore;
-  String features;
-  String applicationUsed;
-  String otherDetails;
-
+  int? key;
+  String? imageUrl;
+  String? publisedDate;
+  String? title;
+  String? motto;
+  String? category;
+  String? projectDuration;
+  String? projectPlatform; // For the platforms - the application is made
+  String? toolsUsed; // Tools used to make the application
+  String? features;
+  String? description;
+  String? urlDownload;
+  String? urlLiveDemo;
+  String? urlPlayStore;
+  String? urlAppleStore;
+  String? otherDetails;
   WorksModel({
-    required this.title,
-    required this.tagLine,
-    required this.category,
-    required this.projectDuration,
-    required this.projectPlatform,
-    required this.applicationFrame,
-    required this.imageUrl,
-    required this.description,
-    required this.publisedDate,
-    required this.urlDownload,
-    required this.urlLiveDemo,
-    required this.urlPlayStore,
-    required this.urlAppleStore,
-    required this.features,
-    required this.applicationUsed,
-    required this.otherDetails,
+    this.key,
+    this.imageUrl,
+    this.publisedDate,
+    this.title,
+    this.motto,
+    this.category,
+    this.projectDuration,
+    this.projectPlatform,
+    this.toolsUsed,
+    this.features,
+    this.description,
+    this.urlDownload,
+    this.urlLiveDemo,
+    this.urlPlayStore,
+    this.urlAppleStore,
+    this.otherDetails,
   });
 
   static getData() async {
-    try {
-      DatabaseReference ref = FirebaseConnection.connect;
-      final snapshot = await ref.child('works').get();
-      items.clear();
-      for (var element in snapshot.children) {
-        WorksModel item = WorksModel.fromMap(Map<String, dynamic>.from(element.value as Map));
-        items.add(item);
+    DatabaseReference ref = FirebaseConnection.connect;
+    final snapshot = await ref.child('works').get();
+    if (snapshot.exists) {
+      try {
+        items.clear();
+        for (var element in snapshot.children) {
+          WorksModel item = WorksModel.fromMap(Map<String, dynamic>.from(element.value as Map));
+
+          item.key = int.parse(element.key ?? '-1');
+          items.add(item);
+        }
+      } catch (e) {
+        log('ERROR: $e');
       }
+    }
+  }
+
+  static removeItem(int id) async {
+    try {
+      DatabaseReference ref = FirebaseConnection.connect.child('works');
+      await ref.child(id.toString()).remove();
+      myToast('Item removed');
     } catch (e) {
       log('ERROR: $e');
     }
   }
 
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'title': title,
-      'tagLine': tagLine,
-      'category': category,
+      'key': key,
       'imageUrl': imageUrl,
+      'publisedDate': publisedDate,
+      'title': title,
+      'motto': motto,
+      'category': category,
       'projectDuration': projectDuration,
       'projectPlatform': projectPlatform,
-      'applicationFrame': applicationFrame,
+      'toolsUsed': toolsUsed,
+      'features': features,
       'description': description,
-      'publisedDate': publisedDate,
       'urlDownload': urlDownload,
       'urlLiveDemo': urlLiveDemo,
       'urlPlayStore': urlPlayStore,
       'urlAppleStore': urlAppleStore,
-      'features': features,
-      'applicationUsed': applicationUsed,
       'otherDetails': otherDetails,
     };
   }
 
   factory WorksModel.fromMap(Map<String, dynamic> map) {
     return WorksModel(
-      title: map['title'] != null ? map['title'] as String : '',
-      tagLine: map['tagLine'] != null ? map['tagLine'] as String : '',
-      projectDuration: map['projectDuration'] != null ? map['projectDuration'] as String : '',
-      projectPlatform: map['projectPlatform'] != null ? map['projectPlatform'] as String : '',
-      applicationFrame: map['applicationFrame'] != null ? map['applicationFrame'] as String : '',
-      category: map['category'] != null ? map['category'] as String : '',
-      imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : '',
-      description: map['description'] != null ? map['description'] as String : '',
-      publisedDate: map['publisedDate'] != null ? map['publisedDate'] as String : '',
-      urlDownload: map['urlDownload'] != null ? map['urlDownload'] as String : '',
-      urlLiveDemo: map['urlLiveDemo'] != null ? map['urlLiveDemo'] as String : '',
-      urlPlayStore: map['urlPlayStore'] != null ? map['urlPlayStore'] as String : '',
-      urlAppleStore: map['urlAppleStore'] != null ? map['urlAppleStore'] as String : '',
-      features: map['features'] != null ? map['features'] as String : '',
-      applicationUsed: map['applicationUsed'] != null ? map['applicationUsed'] as String : '',
-      otherDetails: map['otherDetails'] != null ? map['otherDetails'] as String : '',
+      key: map['key'] != null ? map['key'] as int : null,
+      imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
+      publisedDate: map['publisedDate'] != null ? map['publisedDate'] as String : null,
+      title: map['title'] != null ? map['title'] as String : null,
+      motto: map['motto'] != null ? map['motto'] as String : null,
+      category: map['category'] != null ? map['category'] as String : null,
+      projectDuration: map['projectDuration'] != null ? map['projectDuration'] as String : null,
+      projectPlatform: map['projectPlatform'] != null ? map['projectPlatform'] as String : null,
+      toolsUsed: map['toolsUsed'] != null ? map['toolsUsed'] as String : null,
+      features: map['features'] != null ? map['features'] as String : null,
+      description: map['description'] != null ? map['description'] as String : null,
+      urlDownload: map['urlDownload'] != null ? map['urlDownload'] as String : null,
+      urlLiveDemo: map['urlLiveDemo'] != null ? map['urlLiveDemo'] as String : null,
+      urlPlayStore: map['urlPlayStore'] != null ? map['urlPlayStore'] as String : null,
+      urlAppleStore: map['urlAppleStore'] != null ? map['urlAppleStore'] as String : null,
+      otherDetails: map['otherDetails'] != null ? map['otherDetails'] as String : null,
     );
   }
 
@@ -108,40 +121,86 @@ class WorksModel {
 
   @override
   String toString() {
-    return 'WorksModel(title: $title, category: $category, imageUrl: $imageUrl, description: $description, publisedDate: $publisedDate, urlDownload: $urlDownload, urlLiveDemo: $urlLiveDemo, urlPlayStore: $urlPlayStore, urlAppleStore: $urlAppleStore, features: $features, applicationUsed: $applicationUsed, otherDetails: $otherDetails)';
+    return 'WorksModel(key: $key, imageUrl: $imageUrl, publisedDate: $publisedDate, title: $title, motto: $motto, category: $category, projectDuration: $projectDuration, projectPlatform: $projectPlatform, toolsUsed: $toolsUsed, features: $features, description: $description, urlDownload: $urlDownload, urlLiveDemo: $urlLiveDemo, urlPlayStore: $urlPlayStore, urlAppleStore: $urlAppleStore, otherDetails: $otherDetails)';
   }
 
   @override
   bool operator ==(covariant WorksModel other) {
     if (identical(this, other)) return true;
 
-    return other.title == title &&
-        other.category == category &&
+    return other.key == key &&
         other.imageUrl == imageUrl &&
-        other.description == description &&
         other.publisedDate == publisedDate &&
+        other.title == title &&
+        other.motto == motto &&
+        other.category == category &&
+        other.projectDuration == projectDuration &&
+        other.projectPlatform == projectPlatform &&
+        other.toolsUsed == toolsUsed &&
+        other.features == features &&
+        other.description == description &&
         other.urlDownload == urlDownload &&
         other.urlLiveDemo == urlLiveDemo &&
         other.urlPlayStore == urlPlayStore &&
         other.urlAppleStore == urlAppleStore &&
-        other.features == features &&
-        other.applicationUsed == applicationUsed &&
         other.otherDetails == otherDetails;
   }
 
   @override
   int get hashCode {
-    return title.hashCode ^
-        category.hashCode ^
+    return key.hashCode ^
         imageUrl.hashCode ^
-        description.hashCode ^
         publisedDate.hashCode ^
+        title.hashCode ^
+        motto.hashCode ^
+        category.hashCode ^
+        projectDuration.hashCode ^
+        projectPlatform.hashCode ^
+        toolsUsed.hashCode ^
+        features.hashCode ^
+        description.hashCode ^
         urlDownload.hashCode ^
         urlLiveDemo.hashCode ^
         urlPlayStore.hashCode ^
         urlAppleStore.hashCode ^
-        features.hashCode ^
-        applicationUsed.hashCode ^
         otherDetails.hashCode;
+  }
+
+  WorksModel copyWith({
+    int? key,
+    String? imageUrl,
+    String? publisedDate,
+    String? title,
+    String? motto,
+    String? category,
+    String? projectDuration,
+    String? projectPlatform,
+    String? toolsUsed,
+    String? features,
+    String? description,
+    String? urlDownload,
+    String? urlLiveDemo,
+    String? urlPlayStore,
+    String? urlAppleStore,
+    String? otherDetails,
+  }) {
+    return WorksModel(
+      key: key ?? this.key,
+      imageUrl: imageUrl ?? this.imageUrl,
+      publisedDate: publisedDate ?? this.publisedDate,
+      title: title ?? this.title,
+      motto: motto ?? this.motto,
+      category: category ?? this.category,
+      projectDuration: projectDuration ?? this.projectDuration,
+      projectPlatform: projectPlatform ?? this.projectPlatform,
+      toolsUsed: toolsUsed ?? this.toolsUsed,
+      features: features ?? this.features,
+      description: description ?? this.description,
+      urlDownload: urlDownload ?? this.urlDownload,
+      urlLiveDemo: urlLiveDemo ?? this.urlLiveDemo,
+      urlPlayStore: urlPlayStore ?? this.urlPlayStore,
+      urlAppleStore: urlAppleStore ?? this.urlAppleStore,
+      otherDetails: otherDetails ?? this.otherDetails,
+    );
   }
 }

@@ -39,6 +39,13 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  # firebase -----------
+  firebase_core: ^2.10.0
+  firebase_database: ^10.1.1
+  firebase_storage: ^11.1.1
+  permission_handler: ^9.2.0
+  file_picker: ^5.2.11
+  # ------------------
   cupertino_icons: ^1.0.5
   intl: ^0.17.0
   fluttertoast: ^8.2.1
@@ -50,8 +57,13 @@ dependencies:
   flutter_staggered_grid_view: ^0.6.2
   provider: ^6.0.5
   velocity_x: ^3.6.0
-  firebase_database: ^10.1.1
-  firebase_core: ^2.10.0
+  html_editor_enhanced: ^2.5.1
+  easy_web_view: ^1.6.0
+  dio: ^5.1.1
+  html: ^0.15.2
+  flutter_widget_from_html: ^0.8.5
+  quill_html_editor: ^2.0.5
+  pointer_interceptor: ^0.9.3+4
 
 dev_dependencies:
   flutter_test:
@@ -102,7 +114,12 @@ flutter:
         - asset: asset/fonts/RobotoSlab/RobotoSlab-Medium.ttf
         - asset: asset/fonts/RobotoSlab/RobotoSlab-Regular.ttf
         - asset: asset/fonts/RobotoSlab/RobotoSlab-SemiBold.ttf
-        - asset: asset/fonts/RobotoSlab/RobotoSlab-Thin.ttf
+    - family: Courier
+      fonts:
+        - asset: asset/fonts/Courier_Prime/CourierPrime-Bold.ttf
+        - asset: asset/fonts/Courier_Prime/CourierPrime-BoldItalic.ttf
+        - asset: asset/fonts/Courier_Prime/CourierPrime-Italic.ttf
+        - asset: asset/fonts/Courier_Prime/CourierPrime-Regular.ttf
     - family: Rubik
       fonts:
         - asset: asset/fonts/Rubik/Rubik-Black.ttf
@@ -112,7 +129,8 @@ flutter:
         - asset: asset/fonts/Rubik/Rubik-Medium.ttf
         - asset: asset/fonts/Rubik/Rubik-Regular.ttf
         - asset: asset/fonts/Rubik/Rubik-SemiBold.ttf
-          style: italic
+    - family: Rubik-Italic
+      fonts:
         - asset: asset/fonts/Rubik/Rubik-Italic.ttf
         - asset: asset/fonts/Rubik/Rubik-BlackItalic.ttf
         - asset: asset/fonts/Rubik/Rubik-BoldItalic.ttf
@@ -127,23 +145,13 @@ flutter:
       fonts:
         - asset: asset/fonts/SofiaSans/SofiaSans-Black.ttf
         - asset: asset/fonts/SofiaSans/SofiaSans-Bold.ttf
+        - asset: asset/fonts/SofiaSans/SofiaSans-Regular.ttf
         - asset: asset/fonts/SofiaSans/SofiaSans-ExtraBold.ttf
         - asset: asset/fonts/SofiaSans/SofiaSans-ExtraLight.ttf
         - asset: asset/fonts/SofiaSans/SofiaSans-Light.ttf
         - asset: asset/fonts/SofiaSans/SofiaSans-Medium.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-Regular.ttf
         - asset: asset/fonts/SofiaSans/SofiaSans-SemiBold.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-Thin.ttf
-          style: italic
-        - asset: asset/fonts/SofiaSans/SofiaSans-Italic.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-BlackItalic.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-BoldItalic.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-ExtraBoldItalic.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-ExtraLightItalic.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-LightItalic.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-MediumItalic.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-SemiBoldItalic.ttf
-        - asset: asset/fonts/SofiaSans/SofiaSans-ThinItalic.ttf
+          
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

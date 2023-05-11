@@ -10,7 +10,7 @@ import '../ui/screens/works.dart';
 class ScreenProvider with ChangeNotifier {
   int selectedPageIndex = 0;
   // Widget page = const Home();
-  Widget page = pages[3];
+  Widget page = pages[0];
   bool menuVisibleState = true;
 
   static List<Widget> pages = [
@@ -35,7 +35,7 @@ class ScreenProvider with ChangeNotifier {
 
   setIndex(int index) {
     selectedPageIndex = index;
-    page = (index < pages.length) ? pages[index] : Container(child: myText('Under Development'));
+    page = (index < pages.length) ? pages[index] : Container(child: MyText('Under Development'));
     notifyListeners();
   }
 }

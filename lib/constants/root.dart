@@ -33,6 +33,9 @@ class ROOT {
   static const String institutionEstablishmedEINN = '';
   static const String institutionEmail = '';
 
+  static const String fontFamily = '';
+  
+
   // Notice Subscriber:
   static const String defaultNoticeSubscriber = 'BLODD_LINE_ALL';
   // Notification Subscription Topic:

@@ -1,191 +1,339 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '__text.dart';
+import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
 
-myTextField(
-        {required TextEditingController controller,
-        int maxLine = 1,
-        int minLines = 1,
-        int? lengthLimiting,
-        bool enable = true,
-        bool required = false,
-        bool numbersOnly = false,
-        bool obsecureText = false,
-        bool showCrossIcon = false,
-        bool showExternalLabel = false,
-        bool keyValueCheckFirebase = false,
-        Color? backgroundColor = Colors.white70,
-        Color? labelColor,
-        Color? prefixIconColor,
-        String? hint,
-        String? label,
-        String? denyCharsString = '',
-        String? customErrorText,
-        double borderRadius = 6,
-        BorderRadiusGeometry? customBorder,
-        double heightFromRadius = 20,
-        Widget? suffixIcon,
-        IconData? prefixIcon,
-        String? Function(String?)? customValidate,
-        void Function(String)? onChanged,
-        EdgeInsets? padding,
-        EdgeInsets? margin = const EdgeInsets.only(bottom: 6),
-        TextInputType? textInputType,
-        List<TextInputFormatter>? textInputFormats,
-        TextInputAction? textInputAction,
-        InputBorder? inputBorder = InputBorder.none,
-        TextAlign textAlign = TextAlign.start,
-        // Text
-        Color? textColor = Colors.black,
-        String? fontFamily = 'RobotoSlab',
-        double? fontSize = 12,
-        FontWeight? fontWeight = FontWeight.normal,
-        // Hint
-        Color? textColorHint,
-        String? fontFamilyHint,
-        double? fontSizeHint,
-        FontWeight? fontWeightHint,
-        // floating label
-        Color? textColorFloatingLabel,
-        String? fontFamilyFloatingLabel,
-        double? fontSizeFloatingLabel,
-        FontWeight? fontWeightFloatingLabel,
-        // label
-        String? externalLabelText,
-        String labelFontfamily = 'RobotoSlab',
-        double labelFontSize = 12,
-        EdgeInsets labelPadding = const EdgeInsets.fromLTRB(4, 0, 0, 4)}) =>
-    Container(
-        margin: margin,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (showExternalLabel)
-              myText((externalLabelText != null) ? externalLabelText : hint ?? '',
-                  alignment: Alignment.centerLeft, fontWeight: FontWeight.w500, fontFamily: labelFontfamily, fontsize: labelFontSize, padding: labelPadding),
-            ClipRRect(
-              borderRadius: (customBorder == null) ? BorderRadius.circular(borderRadius) : customBorder,
-              child: TextFormField(
-                  controller: controller,
-                  keyboardType: (textInputType == null && numbersOnly) ? TextInputType.number : textInputType,
-                  minLines: minLines,
-                  maxLines: maxLine,
-                  enableIMEPersonalizedLearning: true,
-                  enableInteractiveSelection: true,
-                  enableSuggestions: true,
-                  enabled: enable,
-                  readOnly: !enable,
-                  onChanged: onChanged,
-                  textAlign: textAlign,
-                  obscureText: obsecureText,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: textInputAction,
-                  style: TextStyle(fontFamily: fontFamily, fontSize: fontSize, fontWeight: fontWeight, color: textColor),
-                  validator: (customValidate == null)
-                      ? (value) => (required && (value == null || value.isEmpty))
-                          ? 'field must be filled'
-                          : (value!.contains(RegExp(keyValueCheckFirebase ? '[\\. | \\[ | \\] | \\# | \$ ]' : denyCharsString ?? '')) && keyValueCheckFirebase)
-                              ? 'value must not containes $denyCharsString'
-                              : (customErrorText != null)
-                                  ? customErrorText
-                                  : null
-                      : customValidate,
-                  // validator: (value) => (value == null || value.isEmpty) ? 'field required' : null,
-                  inputFormatters: numbersOnly
-                      ? [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(lengthLimiting)]
-                      : (textInputFormats == null)
-                          ? [
-                              LengthLimitingTextInputFormatter(lengthLimiting),
-                              FilteringTextInputFormatter.deny(RegExp(keyValueCheckFirebase ? '[\\. | \\[ | \\] | \\# | \$ ]' : denyCharsString ?? ''))
-                            ]
-                          : textInputFormats,
-                  cursorRadius: const Radius.circular(10),
-                  decoration: InputDecoration(
-                      // if level is given;. OnClick => label and text doesn't align with the icon verticaly peroperly.
-                      hintText: hint,
-                      hintStyle: TextStyle(fontFamily: fontFamilyHint, fontSize: fontSizeHint, fontWeight: fontWeightHint, color: textColorHint),
-                      labelText: label,
-                      alignLabelWithHint: true,
-                      labelStyle: TextStyle(color: labelColor),
-                      // floatingLabelBehavior: FloatingLabelBehavior.never,
-                      floatingLabelStyle:
-                          TextStyle(color: textColorFloatingLabel, fontFamily: fontFamilyFloatingLabel, fontSize: fontSizeFloatingLabel, fontWeight: fontWeightFloatingLabel),
-                      isDense: true,
-                      enabled: true,
-                      hintMaxLines: 1,
-                      errorMaxLines: 1,
-                      // errorStyle: TextStyle(fontFamily: 'Ubunutu'
-                      //     // decoration: TextDecoration.lineThrough,
-                      //     // decorationStyle: TextDecorationStyle.wavy,
-                      //     // backgroundColor: Colors.transparent,
-                      //     ),
+class ROOTMyTextField {
+  static Color background = Colors.white;
+  static EdgeInsets margin = const EdgeInsets.fromLTRB(10, 0, 10, 6);
+  static EdgeInsets? externalLabelPadding = EdgeInsets.zero;
 
-                      errorStyle: const TextStyle(
-                        fontFamily: 'Ubuntu',
-                        fontSize: 11,
-                      ),
-                      errorBorder: InputBorder.none,
-                      isCollapsed: true,
-                      border: inputBorder,
-                      fillColor: backgroundColor,
-                      prefixIcon: Icon(prefixIcon),
-                      prefixIconColor: prefixIconColor,
-                      filled: (backgroundColor != null) ? true : false,
-                      contentPadding: (padding == null) ? EdgeInsets.symmetric(vertical: (heightFromRadius / 2)) : padding,
-                      // alignLabelWithHint: true,
-                      floatingLabelAlignment: FloatingLabelAlignment.start,
-                      suffixIconConstraints: BoxConstraints.tight(Size.fromRadius(heightFromRadius)),
-                      prefixIconConstraints: (prefixIcon != null) ? const BoxConstraints.tightFor(width: 35) : const BoxConstraints.tightFor(width: 10),
-                      suffixIcon: (suffixIcon == null && showCrossIcon && enable)
-                          ? IconButton(onPressed: () => {controller.clear(), HapticFeedback.mediumImpact()}, icon: Icon(Icons.clear_rounded, size: 16, color: Colors.red.shade800))
-                          : suffixIcon)),
+  // TextStyle
+  static TextStyle externalLabelTextStyle = const TextStyle(fontFamily: 'Ubuntu', fontWeight: FontWeight.w500, color: Colors.blue, fontStyle: FontStyle.normal);
+  static TextStyle textStyle = const TextStyle(fontStyle: FontStyle.normal);
+  static TextStyle labelStyle = const TextStyle(fontStyle: FontStyle.normal);
+  static TextStyle hintStyle = const TextStyle(fontStyle: FontStyle.normal);
+  static TextStyle errorStyle = const TextStyle(fontStyle: FontStyle.normal);
+  static TextStyle helperStyle = const TextStyle(fontStyle: FontStyle.normal);
+  static TextStyle prefixStyle = const TextStyle(fontStyle: FontStyle.normal);
+  static TextStyle suffixStyle = const TextStyle(fontStyle: FontStyle.normal);
+  static Color focusColor = Colors.amber.shade100;
+  static Color hoverColor = Colors.amber.shade100;
+  static const clearIconButton = Icon(Icons.clear_rounded, color: Color.fromRGBO(229, 57, 53, 1));
+  static const InputBorder inputBorder = OutlineInputBorder(borderSide: BorderSide.none);
+  static const InputBorder errorBorder = OutlineInputBorder(borderSide: BorderSide.none);
+  static const InputBorder focusedBorder = OutlineInputBorder(borderSide: BorderSide.none);
+  static InputBorder enabledBorder = const OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(8)));
+  static const InputBorder disabledBorder = OutlineInputBorder(borderSide: BorderSide.none);
+  static const InputBorder focusedErrorBorder = OutlineInputBorder(borderSide: BorderSide.none);
+}
+
+class MyTextField extends StatefulWidget {
+  /// InputBorder.none creates problem with the alignment between text nad icons of the textfield. try to avoid using InputBorder.none
+  ///  OutlineInputBorder(borderSide: BorderSide.none)
+  ///
+  // Controller
+  final TextEditingController controller;
+  // Container
+  EdgeInsets? margin;
+  final String? externalLabel;
+  EdgeInsets? externalLabelPadding;
+  TextStyle? externalLabelTextStyle;
+
+  // TextFormField
+  final bool enable;
+  final TextInputType? keyboardType;
+  int? maxlines;
+  final int? minlines;
+  final int? maxLength;
+  bool obsecureText;
+  final bool isPasswordCompatible;
+  final String obscuringCharacter;
+  final TextCapitalization textCapitalization;
+  final TextAlignVertical? textAlignVertical;
+  final AutovalidateMode? autovalidateMode;
+  final TextInputAction? textInputAction;
+  final TextDirection? textDirection;
+  final TextAlign textAlign;
+
+  // Validator and Formatter:
+  final bool required;
+  final bool numbersOnly;
+  final int? lengthLimiting;
+  final String? denyCharsString;
+  final bool keyValueCheckFirebase;
+  final List<TextInputFormatter>? textInputFormats;
+
+  // On Action Functions:
+  final ScrollController? scrollController;
+  final void Function()? onEditingComplete;
+  final void Function(PointerDownEvent)? onTapOutside;
+  final String? Function(String?)? customValidate;
+  final void Function(String)? onFieldSubmitted;
+  final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
+  final void Function()? onTap;
+
+  // Colors:
+  final bool? showCursor;
+  final Radius? cursorRadius;
+  final Color? cursorColor;
+  Color? backgroundColor;
+  Color? focusColor;
+  Color? hoverColor;
+
+  // Input Decoration:
+
+  // Text Style ----------------
+  TextStyle? textStyle;
+  String? label;
+  TextStyle? labelStyle;
+  String? hint;
+  TextStyle? hintStyle;
+  String? error;
+  TextStyle? errorStyle;
+  String? helper;
+  TextStyle? helperStyle;
+  String? prefixText;
+  TextStyle? prefixStyle;
+  String? suffixText;
+  TextStyle? suffixStyle;
+
+  // Border -----------------
+  // final bool showBorder;
+  InputBorder? inputBorder;
+  InputBorder? errorBorder;
+  InputBorder? focusedBorder;
+  InputBorder? enabledBorder;
+  InputBorder? disabledBorder;
+  InputBorder? focusedErrorBorder;
+  EdgeInsets? contentPadding;
+
+  // Icon and Label
+  final Widget? icon; // oiutside the border indivisual Icon
+  final Widget? prefixIcon; // inside the border
+  final Widget? suffixIcon; // inside the border
+  final Widget? prefix;
+  final Widget? sufix;
+  final bool showClearIcon;
+  final Widget clearIcon;
+  final BoxConstraints? constraints;
+
+  MyTextField({
+    super.key,
+    required this.controller,
+    this.margin,
+    this.externalLabel,
+    this.externalLabelPadding,
+    this.externalLabelTextStyle,
+    this.enable = true,
+    this.keyboardType,
+    this.maxlines,
+    this.minlines,
+    this.maxLength,
+    this.obsecureText = false,
+    this.isPasswordCompatible = false,
+    this.obscuringCharacter = '*',
+    this.textCapitalization = TextCapitalization.none,
+    this.textAlignVertical,
+    this.autovalidateMode,
+    this.textInputAction,
+    this.textDirection,
+    this.textAlign = TextAlign.start,
+    this.textStyle,
+    this.required = true,
+    this.numbersOnly = false,
+    this.lengthLimiting,
+    this.denyCharsString,
+    this.keyValueCheckFirebase = false,
+    this.textInputFormats,
+    this.scrollController,
+    this.onEditingComplete,
+    this.onTapOutside,
+    this.customValidate,
+    this.onFieldSubmitted,
+    this.onChanged,
+    this.onSaved,
+    this.onTap,
+    this.showCursor,
+    this.cursorRadius,
+    this.cursorColor,
+    this.backgroundColor,
+    this.focusColor,
+    this.hoverColor,
+    this.prefixText,
+    this.prefixStyle,
+    this.suffixText,
+    this.suffixStyle,
+    this.hint,
+    this.hintStyle,
+    this.label,
+    this.labelStyle,
+    this.error,
+    this.errorStyle,
+    this.helper,
+    this.helperStyle,
+    // Border ---
+    // this.showBorder = false,
+    this.inputBorder = ROOTMyTextField.inputBorder,
+    this.errorBorder = ROOTMyTextField.errorBorder,
+    this.focusedBorder = ROOTMyTextField.focusedBorder,
+    this.enabledBorder,
+    this.disabledBorder = ROOTMyTextField.disabledBorder,
+    this.focusedErrorBorder = ROOTMyTextField.focusedErrorBorder,
+    this.icon,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.prefix,
+    this.sufix,
+    this.showClearIcon = false,
+    this.clearIcon = ROOTMyTextField.clearIconButton,
+    this.contentPadding,
+    this.constraints,
+  });
+
+  @override
+  State<MyTextField> createState() => _MyTextFieldState();
+}
+
+class _MyTextFieldState extends State<MyTextField> {
+  bool _passwordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    widget.margin ??= ROOTMyTextField.margin;
+    widget.backgroundColor ??= ROOTMyTextField.background;
+    widget.externalLabelTextStyle ??= ROOTMyTextField.externalLabelTextStyle;
+    widget.enabledBorder ??= ROOTMyTextField.enabledBorder;
+    widget.textStyle ??= ROOTMyTextField.textStyle;
+    widget.labelStyle ??= ROOTMyTextField.labelStyle;
+    widget.hintStyle ??= ROOTMyTextField.hintStyle;
+    widget.errorStyle ??= ROOTMyTextField.errorStyle;
+    widget.helperStyle ??= ROOTMyTextField.helperStyle;
+    widget.prefixStyle ??= ROOTMyTextField.prefixStyle;
+    widget.suffixStyle ??= ROOTMyTextField.suffixStyle;
+    widget.focusColor ??= ROOTMyTextField.focusColor;
+    widget.hoverColor ??= ROOTMyTextField.hoverColor;
+    widget.externalLabelPadding ??= ROOTMyTextField.externalLabelPadding;
+
+    if (widget.obsecureText || widget.isPasswordCompatible) widget.maxlines = 1;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: widget.margin,
+      color: Colors.transparent,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.externalLabel != null)
+            MyText(widget.externalLabel, textStyleEnforcement: true, textStyle: widget.externalLabelTextStyle, padding: widget.externalLabelPadding),
+          TextFormField(
+            enabled: widget.enable,
+            readOnly: !widget.enable,
+            controller: widget.controller,
+            enableIMEPersonalizedLearning: true,
+            enableInteractiveSelection: true,
+            enableSuggestions: true,
+            keyboardType: (widget.keyboardType == null && widget.numbersOnly) ? TextInputType.number : widget.keyboardType,
+            minLines: widget.minlines,
+            maxLines: widget.maxlines,
+            maxLength: widget.maxLength,
+            obscureText: widget.isPasswordCompatible ? !_passwordVisible : widget.obsecureText,
+            obscuringCharacter: widget.obscuringCharacter,
+            textCapitalization: widget.textCapitalization,
+            textAlignVertical: widget.textAlignVertical,
+            autovalidateMode: widget.autovalidateMode,
+            textInputAction: widget.textInputAction,
+            textDirection: widget.textDirection,
+            textAlign: widget.textAlign,
+            style: widget.textStyle,
+            showCursor: widget.showCursor,
+            cursorRadius: widget.cursorRadius,
+            cursorColor: (widget.cursorColor == null) ? widget.cursorColor : Theme.of(context).primaryColor,
+            validator: (widget.customValidate == null)
+                ? (value) => (widget.required && (value == null || value.isEmpty))
+                    ? 'field must be filled'
+                    : (value!.contains(RegExp(widget.keyValueCheckFirebase ? '[\\. | \\[ | \\] | \\# | \$ ]' : widget.denyCharsString ?? '')) && widget.keyValueCheckFirebase)
+                        ? 'value must not containes ${widget.denyCharsString}'
+                        : (widget.error != null)
+                            ? widget.error
+                            : null
+                : widget.customValidate,
+            inputFormatters: widget.numbersOnly
+                ? [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(widget.lengthLimiting)]
+                : (widget.textInputFormats == null)
+                    ? [
+                        LengthLimitingTextInputFormatter(widget.lengthLimiting),
+                        FilteringTextInputFormatter.deny(RegExp(widget.keyValueCheckFirebase ? '[\\. | \\[ | \\] | \\# | \$ ]' : widget.denyCharsString ?? ''))
+                      ]
+                    : widget.textInputFormats,
+            // On Action Functions :
+            scrollController: widget.scrollController,
+            onEditingComplete: widget.onEditingComplete,
+            onFieldSubmitted: widget.onFieldSubmitted,
+            onTapOutside: widget.onTapOutside,
+            onChanged: widget.onChanged,
+            onSaved: widget.onSaved,
+            onTap: widget.onTap,
+            decoration: InputDecoration(
+              enabled: widget.enable,
+              // constraints: BoxConstraints.tight(const Size(double.infinity, 30)),
+              // if level is given;. OnClick => label and text doesn't align with the icon verticaly peroperly.
+              // contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              // Text ----------------
+              hintTextDirection: TextDirection.ltr,
+              hintText: widget.hint,
+              hintMaxLines: 1,
+              hintStyle: widget.hintStyle,
+              labelText: widget.label,
+              labelStyle: widget.labelStyle,
+              errorText: widget.error,
+              errorMaxLines: 1,
+              errorStyle: widget.errorStyle,
+              helperText: widget.helper,
+              helperStyle: widget.helperStyle,
+              // Border ----------------
+              // border: widget.showBorder ? widget.inputBorder : const OutlineInputBorder(borderSide: BorderSide.none),
+              border: widget.inputBorder,
+              errorBorder: widget.errorBorder,
+              enabledBorder: widget.enabledBorder,
+              disabledBorder: widget.disabledBorder,
+              focusedBorder: widget.focusedBorder,
+              focusedErrorBorder: widget.focusedErrorBorder,
+              // Icon -------------------
+              icon: widget.icon,
+              // alignLabelWithHint: true,
+              prefix: widget.prefix,
+              suffix: widget.suffixIcon,
+              prefixText: widget.prefixText,
+              prefixStyle: widget.prefixStyle,
+              suffixText: widget.suffixText,
+              suffixStyle: widget.suffixStyle,
+              prefixIcon: widget.prefixIcon,
+              suffixIcon: (widget.suffixIcon == null && widget.showClearIcon && widget.enable && !widget.isPasswordCompatible)
+                  ? IconButton(onPressed: () => {widget.controller.clear(), HapticFeedback.lightImpact()}, padding: EdgeInsets.zero, icon: widget.clearIcon)
+                  : (widget.suffixIcon == null && widget.enable && widget.isPasswordCompatible)
+                      ? IconButton(
+                          icon: Icon(_passwordVisible ? CupertinoIcons.eye : CupertinoIcons.eye_slash), onPressed: () => setState(() => _passwordVisible = !_passwordVisible))
+                      : widget.suffixIcon,
+
+              // Color --------------------
+              filled: true,
+              fillColor: widget.backgroundColor,
+              focusColor: widget.focusColor,
+              hoverColor: widget.hoverColor,
+              isDense: true,
+              contentPadding: widget.contentPadding,
+              constraints: widget.constraints,
             ),
-          ],
-        ));
-
-Widget phoneField({required TextEditingController phoneController, String? label, bool required = false}) {
-  final phoneCountryCode = TextEditingController();
-  phoneCountryCode.text = '+88';
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      myText(label ?? '', fontFamily: 'RobotoSlab', alignment: Alignment.centerLeft, fontWeight: FontWeight.w500, fontsize: 12, padding: const EdgeInsets.symmetric(horizontal: 4)),
-      const SizedBox(height: 4),
-      Row(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-            flex: 15,
-            child: myTextField(
-                controller: phoneCountryCode,
-                customBorder: const BorderRadius.horizontal(left: Radius.circular(6)),
-                showCrossIcon: false,
-                heightFromRadius: 26,
-                textAlign: TextAlign.center,
-                hint: '+88',
-                required: false,
-                enable: false,
-                backgroundColor: Colors.grey.shade100)),
-        const SizedBox(width: 2),
-        Expanded(
-            flex: 85,
-            child: myTextField(
-                controller: phoneController,
-                heightFromRadius: 26,
-                customBorder: const BorderRadius.horizontal(right: Radius.circular(6)),
-                backgroundColor: Colors.grey.shade100,
-                hint: 'phone',
-                lengthLimiting: 11,
-                numbersOnly: true,
-                required: required,
-                customValidate: required
-                    ? (value) => (value == null || value.isEmpty)
-                        ? 'phone number is required'
-                        : (value.length == 11)
-                            ? null
-                            : 'please enter a valid phone number'
-                    : null))
-      ])
-    ],
-  );
+          )
+        ],
+      ),
+    );
+  }
 }

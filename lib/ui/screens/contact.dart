@@ -12,7 +12,14 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: myText('Contacts', color: Colors.white),
-    );
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            MyText('E-mail : akaomarfahim@gmail.com', textColor: Colors.white),
+            MyText('phone : +880 18398 65200', textColor: Colors.white),
+          ],
+        ));
   }
 }

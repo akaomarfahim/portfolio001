@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_final_omar/constants/global_keys.dart';
+import 'package:portfolio_final_omar/constants/root.dart';
 import 'package:portfolio_final_omar/models/works_model.dart';
 import 'package:portfolio_final_omar/ui/screens/splash_screen.dart';
 import 'package:portfolio_final_omar/ui/screens/work_details.dart';
@@ -7,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../../constants/def.dart';
 import '../../providers/screen_provider.dart';
-import '../../utils/__colors.dart';
 import '../../utils/__screen.dart';
 import '../../widgets/widget_default/__hover.dart';
 import '../../widgets/widget_default/__text.dart';
@@ -38,37 +38,38 @@ class _WorksState extends State<Works> {
   Widget build(BuildContext context) {
     return !isLoadingComplete
         ? const SplashScreen()
-        : Container(
-            height: double.infinity,
-            width: double.infinity,
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(top: 40),
-            // color: Colors.white,
-            child: SingleChildScrollView(
-                key: MyGlobalKey.worksKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    myText('Recent Works',
-                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                        alignment: Alignment.centerLeft,
-                        color: Colors.grey.shade200,
-                        fontsize: 24,
-                        fontWeight: FontWeight.w500),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      child: Wrap(
-                        spacing: 20,
-                        runSpacing: 20,
-                        children: [
-                          for (int i = 0; i < WorksModel.items.length; i++) ItemWithPhotoHoverAndBottomBox(item: WorksModel.items[i]),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20)
-                  ],
-                )));
+        : WorksModel.items.isEmpty
+            ? Center(child: MyText('Nothing to show', textColor: Colors.white, fontWeight: FontWeight.w500))
+            : Container(
+                height: double.infinity,
+                width: double.infinity,
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(top: 40),
+                // color: Colors.white,
+                child: SingleChildScrollView(
+                    key: MyGlobalKey.worksKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MyText('Recent Works',
+                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                            alignment: Alignment.centerLeft,
+                            textColor: Colors.grey.shade200,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                            child: Wrap(
+                              spacing: 20,
+                              runSpacing: 20,
+                              children: [
+                                for (int i = 0; i < WorksModel.items.length; i++) ItemWithPhotoHoverAndBottomBox(item: WorksModel.items[i]),
+                              ],
+                            )),
+                        const SizedBox(height: 20)
+                      ],
+                    )));
   }
 }
 
@@ -99,7 +100,7 @@ class ItemWithPhotoHoverAndBottomBox extends StatelessWidget {
                       children: [
                         ClipRRect(
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(Def.cardBorderRadius)),
-                            child: Image.network(item.imageUrl, width: width, height: height, fit: BoxFit.cover)),
+                            child: Image.network(item.imageUrl ?? FirebaseDataRoot.imageErrorLink, width: width, height: height, fit: BoxFit.cover)),
                         AnimatedContainer(
                             height: height,
                             width: width,
@@ -117,12 +118,13 @@ class ItemWithPhotoHoverAndBottomBox extends StatelessWidget {
                                 duration: const Duration(milliseconds: 600),
                                 child: Container(
                                   height: 30,
-                                  // width: 100,
-                                  child: myText(item.category, fontsize: 12, padding: const EdgeInsets.symmetric(horizontal: 10), maxLines: 1),
                                   decoration: BoxDecoration(
                                       color: Colors.redAccent,
                                       boxShadow: [BoxShadow(blurRadius: 8, spreadRadius: 1, color: Colors.black54, offset: Offset.fromDirection(1, 3))],
                                       borderRadius: const BorderRadius.vertical(bottom: Radius.circular(Def.cardBorderRadius))),
+                                  // width: 100,
+                                  child: MyText(item.category,
+                                      fontSize: 12, alignment: Alignment.center, textAlign: TextAlign.center, padding: const EdgeInsets.symmetric(horizontal: 10), maxLines: 1),
                                 ))),
                         AnimatedOpacity(
                             opacity: isHovered ? 1 : 0,
@@ -131,26 +133,26 @@ class ItemWithPhotoHoverAndBottomBox extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                myText(
+                                MyText(
                                   item.title,
                                   // shadows: [const BoxShadow(blurRadius: 4, spreadRadius: 4, color: Colors.black54, offset: Offset(1, 1))],
                                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                   textAlign: TextAlign.center,
-                                  maxLines: 2,
+                                  maxLines: 1,
                                   fontFamily: 'Rubik',
                                   fontWeight: FontWeight.bold,
-                                  fontsize: 20,
-                                  color: Colors.black,
+                                  fontSize: 20,
+                                  textColor: Colors.black,
                                 ),
-                                myText(item.tagLine,
+                                MyText(item.motto,
                                     // shadows: [const BoxShadow(blurRadius: 1, spreadRadius: 1, color: Colors.black38, offset: Offset(1, 1))],
                                     fontWeight: FontWeight.w800,
                                     padding: const EdgeInsets.only(top: 2),
-                                    fontsize: 14,
+                                    fontSize: 14,
                                     fontFamily: 'SofiaSans',
-                                    maxLines: 4,
+                                    maxLines: 3,
                                     alignment: Alignment.center,
-                                    color: MyColors.primary)
+                                    textColor: Colors.black)
                               ],
                             ))
                       ],
@@ -162,38 +164,38 @@ class ItemWithPhotoHoverAndBottomBox extends StatelessWidget {
                         decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: const BorderRadius.vertical(bottom: Radius.circular(Def.cardBorderRadius))),
                         child: Column(
                           children: [
-                            myText(item.title,
+                            MyText(item.title,
                                 fontFamily: 'Rubik',
                                 fontWeight: FontWeight.w600,
                                 maxLines: 2,
                                 padding: const EdgeInsets.only(bottom: 8),
                                 alignment: Alignment.topLeft,
-                                color: Colors.black),
-                            myText(item.description, fontsize: 12, fontFamily: 'SofiaSans', maxLines: 4, alignment: Alignment.topLeft, color: Colors.black),
-                            myText('Project Duration: ${item.projectDuration}',
+                                textColor: Colors.black),
+                            MyText(item.description, fontSize: 12, fontFamily: 'SofiaSans', maxLines: 4, alignment: Alignment.topLeft, textColor: Colors.black),
+                            MyText('Project Duration: ${item.projectDuration}',
                                 fontWeight: FontWeight.bold,
                                 padding: const EdgeInsets.only(top: 5),
-                                fontsize: 12,
+                                fontSize: 12,
                                 fontFamily: 'SofiaSans',
-                                maxLines: 4,
+                                maxLines: 3,
                                 alignment: Alignment.topLeft,
-                                color: Colors.black),
-                            myText('Platforms: ${item.projectPlatform}',
+                                textColor: Colors.black),
+                            MyText('Features: ${item.features}',
                                 fontWeight: FontWeight.bold,
                                 padding: const EdgeInsets.only(top: 2),
-                                fontsize: 12,
+                                fontSize: 12,
                                 fontFamily: 'SofiaSans',
-                                maxLines: 4,
+                                maxLines: 3,
                                 alignment: Alignment.topLeft,
-                                color: Colors.black),
-                            myText('Application Frame: ${item.applicationFrame}',
+                                textColor: Colors.black),
+                            MyText('Platforms Used: ${item.projectPlatform}',
                                 fontWeight: FontWeight.bold,
                                 padding: const EdgeInsets.only(top: 2),
-                                fontsize: 12,
+                                fontSize: 12,
                                 fontFamily: 'SofiaSans',
-                                maxLines: 4,
+                                maxLines: 3,
                                 alignment: Alignment.topLeft,
-                                color: Colors.black),
+                                textColor: Colors.black),
                           ],
                         ))
                   ])),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '__text.dart';
 
 myDropDownMenu({
@@ -18,8 +17,7 @@ myDropDownMenu({
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (showExternalLabel)
-          myText((externalLabelText.isNotEmpty) ? externalLabelText : hint ?? '',
-              alignment: Alignment.centerLeft, fontFamily: 'RobotoSlab', fontsize: 12, fontWeight: FontWeight.w500, padding: const EdgeInsets.fromLTRB(4, 0, 0, 4)),
+          MyText((externalLabelText.isNotEmpty) ? externalLabelText : hint ?? '', alignment: Alignment.centerLeft, padding: const EdgeInsets.fromLTRB(4, 0, 0, 4)),
         Container(
           width: double.infinity,
           height: height,

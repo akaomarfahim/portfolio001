@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_final_omar/ui/home/portfolio.dart';
 import 'package:portfolio_final_omar/utils/__colors.dart';
+import 'package:portfolio_final_omar/utils/__screen.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__hover.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
 import 'package:provider/provider.dart';
@@ -28,37 +29,20 @@ class _NavbarState extends State<Navbar> {
         InkWell(
             onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Portfolio())),
             child: FittedBox(
-                child: myText('@akaomarfahim', alignment: Alignment.centerLeft, color: MyColors.accent, fontFamily: 'SofiaSans', fontWeight: FontWeight.bold, fontsize: 24))),
+                child: MyText('@akaomarfahim', alignment: Alignment.centerLeft, textColor: MyColors.accent, fontFamily: 'SofiaSans', fontWeight: FontWeight.bold, fontSize: 24))),
         const SizedBox(height: 70),
         ListView.builder(
             itemCount: menu.length,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) =>
                 menuItem(menu.keys.elementAt(index), selected: (selectedIndex == index) ? true : false, iconData: menu.entries.elementAt(index).value, onTap: () {
                   context.read<ScreenProvider>().setIndex(index);
-                  context.read<ScreenProvider>().setMenuVisible(false);
+                  Screen.isDesktop(context) ? context.read<ScreenProvider>().setMenuVisible(true) : context.read<ScreenProvider>().setMenuVisible(false);
                 }))
       ],
     ));
   }
-
-  // menuItem(String label, {void Function()? onTap, IconData iconData = Icons.menu, bool selected = false}) => OnHover(builder: (isHovered) {
-  //       final color = isHovered ? MyColors.accent : Colors.white;
-  //       return Container(
-  //           margin: const EdgeInsets.symmetric(vertical: 2),
-  //           child: ListTile(
-  //               onTap: onTap,
-  //               dense: true,
-  //               splashColor: Colors.amber,
-  //               hoverColor: Colors.white12,
-  //               shape: const StadiumBorder(),
-  //               selected: selected,
-  //               selectedTileColor: Colors.white12,
-  //               leading: Icon(iconData, size: 18, color: color),
-  //               minLeadingWidth: 0,
-  //               title: myText(label,
-  //                   fontsize: 14, color: color, alignment: Alignment.centerLeft, fontWeight: FontWeight.bold, maxLines: 1, letterSpacing: 1, fontFamily: 'SofiaSans')));
-  //     });
 
   menuItem(String label, {void Function()? onTap, IconData iconData = Icons.menu, bool selected = false}) => OnHover(builder: (isHovered) {
         final color = isHovered ? MyColors.accent : Colors.white;
@@ -75,8 +59,8 @@ class _NavbarState extends State<Navbar> {
                     child: Row(children: [
                       Icon(iconData, size: 18, color: color),
                       const SizedBox(width: 10),
-                      myText(label,
-                          fontsize: 14, color: color, alignment: Alignment.centerLeft, fontWeight: FontWeight.bold, maxLines: 1, letterSpacing: 1, fontFamily: 'SofiaSans'),
+                      MyText(label,
+                          fontSize: 14, textColor: color, alignment: Alignment.centerLeft, fontWeight: FontWeight.bold, maxLines: 1, letterSpacing: 1, fontFamily: 'SofiaSans'),
                     ]))));
       });
 }
