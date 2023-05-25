@@ -1,47 +1,38 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class ROOTMyText {
-  static TextStyle textStyle = const TextStyle(fontFamily: 'Rubik', fontWeight: FontWeight.w500, color: Colors.blue, fontStyle: FontStyle.normal);
-  static Color textColor = Colors.lightBlue;
-  static Color selectionColor = Colors.blue.withOpacity(0.3);
-  static EdgeInsets padding = EdgeInsets.zero;
-  static AlignmentGeometry alignment = Alignment.center;
-}
-
 class MyText extends StatefulWidget {
-  AlignmentGeometry? alignment;
-  Color? containerColor;
-  EdgeInsets? padding;
-  EdgeInsets? margin;
-  double? height;
-  double? width;
+  final AlignmentGeometry? alignment;
+  final Color? containerColor;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final double? height;
+  final double? width;
   // TextField
-  String? label;
-  bool? softWrap;
-  bool textStyleEnforcement;
-  TextStyle? textStyle;
-  TextOverflow? textOverflow;
-  double? textScaleFactor;
-  Decoration? decoration;
-  Color? selectionColor;
-  TextAlign? textAlign;
-  int? maxLines;
+  final String? label;
+  final bool? softWrap;
+  final bool textStyleEnforcement;
+  final TextStyle? textStyle;
+  final TextOverflow? textOverflow;
+  final double? textScaleFactor;
+  final Decoration? decoration;
+  final Color? selectionColor;
+  final TextAlign? textAlign;
+  final int? maxLines;
   // TextStyle
-  String? fontFamily;
-  double? fontSize;
-  FontWeight? fontWeight;
-  FontStyle? fontStyle;
-  double? textHeight;
-  double? letterSpacing;
-  Color? textColor;
-  Color? textBackgroundColor;
-  TextDecoration? textDecoration;
-  Color? textDecorationColor;
-  TextDecorationStyle? textDecorationStyle;
-  double? textDecorationThickness;
+  final String? fontFamily;
+  final double? fontSize;
+  final FontWeight? fontWeight;
+  final FontStyle? fontStyle;
+  final double? textHeight;
+  final double? letterSpacing;
+  final Color? textColor;
+  final Color? textBackgroundColor;
+  final TextDecoration? textDecoration;
+  final Color? textDecorationColor;
+  final TextDecorationStyle? textDecorationStyle;
+  final double? textDecorationThickness;
 
-  MyText(this.label,
+  const MyText(this.label,
       {Key? key,
       this.alignment,
       this.containerColor,
@@ -55,8 +46,7 @@ class MyText extends StatefulWidget {
       this.textOverflow,
       this.textScaleFactor,
       this.decoration,
-      this.selectionColor,
-      this.textAlign,
+      this.selectionColor = const Color.fromARGB(150, 33, 150, 243),
       this.maxLines,
       this.fontFamily,
       this.fontSize,
@@ -69,7 +59,8 @@ class MyText extends StatefulWidget {
       this.textDecoration,
       this.textDecorationColor,
       this.textDecorationStyle,
-      this.textDecorationThickness})
+      this.textDecorationThickness,
+      this.textAlign})
       : super(key: key);
 
   @override
@@ -77,16 +68,6 @@ class MyText extends StatefulWidget {
 }
 
 class _MyTextState extends State<MyText> {
-  @override
-  void initState() {
-    super.initState();
-    widget.textStyle ??= ROOTMyText.textStyle;
-    widget.selectionColor ??= ROOTMyText.selectionColor;
-    widget.padding ??= ROOTMyText.padding;
-    widget.alignment ??= ROOTMyText.alignment;
-    widget.textColor ??= ROOTMyText.textColor;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(

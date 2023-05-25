@@ -8,7 +8,6 @@ import 'package:portfolio_final_omar/widgets/widget_default/__hover.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
-import '../../constants/global_keys.dart';
 import '../../utils/__colors.dart';
 
 class About extends StatefulWidget {
@@ -52,91 +51,90 @@ class _AboutState extends State<About> {
             width: double.infinity,
             // padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
             child: SingleChildScrollView(
-                key: MyGlobalKey.aboutKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MyText('About Me',
-                        margin: const EdgeInsets.only(top: 40, left: 10),
-                        padding: padding,
-                        alignment: Alignment.centerLeft,
-                        textStyleEnforcement: true,
-                        textStyle: const TextStyle(color: MyColors.primary, fontFamily: 'Rubik', fontSize: 24, fontWeight: FontWeight.w800)),
-                    context.isMobile ? aboutHeaderMobile() : aboutHeaderDesktop(),
-                    programmingSkillsCard(),
-                    workExperiencesCard(),
-                    if (EducationModel.items.isNotEmpty)
-                      Card(
-                          margin: padding,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
-                          child: Column(
-                            children: [
-                              MyText('Education',
-                                  alignment: Alignment.centerLeft,
-                                  fontFamily: 'Rubik',
-                                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                  textColor: Colors.redAccent,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold),
-                              const Divider(color: Colors.redAccent, indent: 20, endIndent: 40, height: 10, thickness: 0.4),
-                              ListView.builder(
-                                  shrinkWrap: true,
-                                  reverse: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: EducationModel.items.length,
-                                  itemBuilder: (context, index) => educationTile(EducationModel.items[index])),
-                              const SizedBox(height: 10)
-                            ],
-                          )),
-                    if (EducationModel.experieces.isNotEmpty)
-                      Card(
-                          margin: padding,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
-                          child: Column(
-                            children: [
-                              MyText('Experiences',
-                                  alignment: Alignment.centerLeft,
-                                  fontFamily: 'Rubik',
-                                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                  textColor: Colors.redAccent,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold),
-                              const Divider(color: Colors.redAccent, indent: 20, endIndent: 40, height: 10, thickness: 0.4),
-                              ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: EducationModel.experieces.length,
-                                  reverse: true,
-                                  itemBuilder: (context, index) => experienceTile(EducationModel.experieces[index])),
-                              const SizedBox(height: 20),
-                            ],
-                          )),
-                    Card(
-                        margin: padding,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
-                        child: Column(
-                          children: [
-                            MyText('Self-Evaluation',
-                                alignment: Alignment.centerLeft,
-                                fontFamily: 'Rubik',
-                                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                textColor: Colors.redAccent,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold),
-                            const Divider(color: Colors.redAccent, indent: 20, endIndent: 40, height: 10, thickness: 0.4),
-                            MyText(profile.selfEvaluation,
-                                fontFamily: 'SofiaSans',
-                                padding: const EdgeInsets.fromLTRB(22, 10, 0, 40),
-                                alignment: Alignment.centerLeft,
-                                textColor: MyColors.primary,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500),
-                          ],
-                        )),
-                    const SizedBox(height: 10),
-                  ],
-                )));
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyText('About Me',
+                    margin: const EdgeInsets.only(top: 40, left: 10),
+                    padding: padding,
+                    alignment: Alignment.centerLeft,
+                    textStyleEnforcement: true,
+                    textStyle: const TextStyle(color: MyColors.primary, fontFamily: 'Rubik', fontSize: 24, fontWeight: FontWeight.w800)),
+                context.isMobile ? aboutHeaderMobile() : aboutHeaderDesktop(),
+                programmingSkillsCard(),
+                workExperiencesCard(),
+                if (EducationModel.items.isNotEmpty)
+                  Card(
+                      margin: padding,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+                      child: Column(
+                        children: [
+                          const MyText('Education',
+                              alignment: Alignment.centerLeft,
+                              fontFamily: 'Rubik',
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              textColor: Colors.redAccent,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                          const Divider(color: Colors.redAccent, indent: 20, endIndent: 40, height: 10, thickness: 0.4),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              reverse: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: EducationModel.items.length,
+                              itemBuilder: (context, index) => educationTile(EducationModel.items[index])),
+                          const SizedBox(height: 10)
+                        ],
+                      )),
+                if (EducationModel.experieces.isNotEmpty)
+                  Card(
+                      margin: padding,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+                      child: Column(
+                        children: [
+                          const MyText('Experiences',
+                              alignment: Alignment.centerLeft,
+                              fontFamily: 'Rubik',
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              textColor: Colors.redAccent,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                          const Divider(color: Colors.redAccent, indent: 20, endIndent: 40, height: 10, thickness: 0.4),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: EducationModel.experieces.length,
+                              reverse: true,
+                              itemBuilder: (context, index) => experienceTile(EducationModel.experieces[index])),
+                          const SizedBox(height: 20),
+                        ],
+                      )),
+                Card(
+                    margin: padding,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+                    child: Column(
+                      children: [
+                        const MyText('Self-Evaluation',
+                            alignment: Alignment.centerLeft,
+                            fontFamily: 'Rubik',
+                            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            textColor: Colors.redAccent,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
+                        const Divider(color: Colors.redAccent, indent: 20, endIndent: 40, height: 10, thickness: 0.4),
+                        MyText(profile.selfEvaluation,
+                            fontFamily: 'SofiaSans',
+                            padding: const EdgeInsets.fromLTRB(22, 10, 0, 40),
+                            alignment: Alignment.centerLeft,
+                            textColor: MyColors.primary,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ],
+                    )),
+                const SizedBox(height: 10),
+              ],
+            )));
   }
 
   programmingSkillsCard() => Card(
@@ -146,10 +144,10 @@ class _AboutState extends State<About> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MyText('Programming Skills',
+            const MyText('Programming Skills',
                 alignment: Alignment.centerLeft,
                 fontFamily: 'Rubik',
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                 textColor: Colors.redAccent,
                 fontSize: 22,
                 fontWeight: FontWeight.bold),
@@ -180,10 +178,10 @@ class _AboutState extends State<About> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MyText('Other Skills',
+            const MyText('Other Skills',
                 alignment: Alignment.centerLeft,
                 fontFamily: 'Rubik',
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                 textColor: Colors.redAccent,
                 fontSize: 22,
                 fontWeight: FontWeight.bold),
@@ -226,10 +224,10 @@ class _AboutState extends State<About> {
                         borderRadius: BorderRadius.vertical(bottom: const Radius.circular(10), top: Radius.circular(radius)),
                         child: Image.asset('asset/images/avatar.png', fit: BoxFit.contain)),
                     const SizedBox(height: 6),
-                    MyText('E-mail',
+                    const MyText('E-mail',
                         textStyleEnforcement: true,
-                        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'SofiaSans', color: Colors.black),
-                        padding: const EdgeInsets.only(bottom: 2)),
+                        textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'SofiaSans', color: Colors.black),
+                        padding: EdgeInsets.only(bottom: 2)),
                     FittedBox(
                         child: MyText(profile.email,
                             fontSize: 24,
@@ -238,17 +236,13 @@ class _AboutState extends State<About> {
                             fontStyle: FontStyle.italic,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             textColor: Colors.black)),
-                    MyText('Phone',
-                        textStyleEnforcement: true,
-                        textStyle: const TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black),
-                        padding: const EdgeInsets.only(bottom: 2)),
+                    const MyText('Phone',
+                        textStyleEnforcement: true, textStyle: TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black), padding: EdgeInsets.only(bottom: 2)),
                     FittedBox(
                         child: MyText(profile.phone,
                             margin: const EdgeInsets.only(bottom: 14), fontFamily: 'SofiaSans', padding: const EdgeInsets.symmetric(horizontal: 20), textColor: Colors.black)),
-                    MyText('Website',
-                        textStyleEnforcement: true,
-                        textStyle: const TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black),
-                        padding: const EdgeInsets.only(bottom: 2)),
+                    const MyText('Website',
+                        textStyleEnforcement: true, textStyle: TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black), padding: EdgeInsets.only(bottom: 2)),
                     FittedBox(
                         child: MyText(profile.website,
                             maxLines: 2,
@@ -256,10 +250,8 @@ class _AboutState extends State<About> {
                             fontFamily: 'SofiaSans',
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             textColor: Colors.black)),
-                    MyText('Address',
-                        textStyleEnforcement: true,
-                        textStyle: const TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black),
-                        padding: const EdgeInsets.only(bottom: 2)),
+                    const MyText('Address',
+                        textStyleEnforcement: true, textStyle: TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black), padding: EdgeInsets.only(bottom: 2)),
                     FittedBox(
                         child: MyText(profile.address,
                             margin: EdgeInsets.zero, fontSize: 12, fontFamily: 'SofiaSans', padding: const EdgeInsets.symmetric(horizontal: 20), textColor: Colors.black)),
@@ -340,10 +332,10 @@ class _AboutState extends State<About> {
                       borderRadius: BorderRadius.vertical(bottom: const Radius.circular(10), top: Radius.circular(radius)),
                       child: Image.asset('asset/images/avatar.png', fit: BoxFit.contain)),
                   const SizedBox(height: 6),
-                  MyText('e-mail',
+                  const MyText('e-mail',
                       textStyleEnforcement: true,
-                      textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, fontFamily: 'SofiaSans', color: Colors.black),
-                      padding: const EdgeInsets.only(bottom: 2, top: 6)),
+                      textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, fontFamily: 'SofiaSans', color: Colors.black),
+                      padding: EdgeInsets.only(bottom: 2, top: 6)),
                   FittedBox(
                       child: MyText(profile.email,
                           fontSize: 20,
@@ -352,10 +344,8 @@ class _AboutState extends State<About> {
                           fontStyle: FontStyle.italic,
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           textColor: Colors.black)),
-                  MyText('Phone',
-                      textStyleEnforcement: true,
-                      textStyle: const TextStyle(fontSize: 20, fontFamily: 'SofiaSans', color: Colors.black),
-                      padding: const EdgeInsets.only(bottom: 2)),
+                  const MyText('Phone',
+                      textStyleEnforcement: true, textStyle: TextStyle(fontSize: 20, fontFamily: 'SofiaSans', color: Colors.black), padding: EdgeInsets.only(bottom: 2)),
                   FittedBox(
                       child: MyText(profile.phone,
                           fontSize: 20,
@@ -363,10 +353,8 @@ class _AboutState extends State<About> {
                           fontFamily: 'SofiaSans',
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           textColor: Colors.black)),
-                  MyText('Website',
-                      textStyleEnforcement: true,
-                      textStyle: const TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black),
-                      padding: const EdgeInsets.only(bottom: 2)),
+                  const MyText('Website',
+                      textStyleEnforcement: true, textStyle: TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black), padding: EdgeInsets.only(bottom: 2)),
                   FittedBox(
                       child: MyText(profile.website,
                           fontSize: 16,
@@ -374,10 +362,8 @@ class _AboutState extends State<About> {
                           fontFamily: 'SofiaSans',
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           textColor: Colors.black)),
-                  MyText('Address',
-                      textStyleEnforcement: true,
-                      textStyle: const TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black),
-                      padding: const EdgeInsets.only(bottom: 2)),
+                  const MyText('Address',
+                      textStyleEnforcement: true, textStyle: TextStyle(fontSize: 16, fontFamily: 'SofiaSans', color: Colors.black), padding: EdgeInsets.only(bottom: 2)),
                   FittedBox(
                       child: MyText(profile.address,
                           margin: EdgeInsets.zero, fontSize: 20, fontFamily: 'SofiaSans', padding: const EdgeInsets.symmetric(horizontal: 20), textColor: Colors.black)),

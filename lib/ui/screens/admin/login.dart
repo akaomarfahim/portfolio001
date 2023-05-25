@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_final_omar/constants/routes.dart';
+import 'package:get/get.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__button.dart';
+import 'package:portfolio_final_omar/widgets/widget_default/__toast.dart';
 import '../../../widgets/widget_default/__textfield.dart';
+import 'auth.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -11,12 +13,18 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool isLoadingComplete = false;
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    setState(() => isLoadingComplete = true);
   }
 
   @override
@@ -35,7 +43,7 @@ class _LoginState extends State<Login> {
               MyTextField(
                   controller: _username,
                   constraints: const BoxConstraints.tightForFinite(width: 300),
-                  isPasswordCompatible: true,
+                  isPasswordCompatible: false,
                   prefixIcon: const Icon(Icons.person),
                   hint: 'username'),
               MyTextField(
@@ -44,7 +52,19 @@ class _LoginState extends State<Login> {
                   prefixIcon: const Icon(Icons.lock),
                   isPasswordCompatible: true,
                   hint: 'password'),
-              MyButton(action: () => Navigator.pushNamed(context, MyRoutes.admin), width: 300, height: 40, label: 'Sign in'),
+              MyButton(
+                  action: () async {
+                    setState(() => isLoadingComplete = false);
+                    final isLoggedIn = await auth(_username.text.trim(), _password.text.trim());
+                    setState(() => isLoadingComplete = true);
+                    debugPrint('loGIN : $isLoggedIn');
+                    if (isLoggedIn) Get.toNamed('/admin');
+                    if (!isLoggedIn) myToast('Wrong Cradentials!');
+                  },
+                  isLoadingComplete: isLoadingComplete,
+                  width: 300,
+                  height: 40,
+                  label: 'Sign in'),
             ],
           ),
         ),

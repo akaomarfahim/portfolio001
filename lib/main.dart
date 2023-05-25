@@ -1,19 +1,21 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:portfolio_final_omar/constants/routes.dart';
+import 'package:material_color_generator/material_color_generator.dart';
+import 'package:portfolio_final_omar/models/user_model.dart';
 import 'package:portfolio_final_omar/providers/screen_provider.dart';
-import 'package:portfolio_final_omar/ui/home/portfolio.dart';
-import 'package:portfolio_final_omar/ui/screens/admin/add_project.dart';
 import 'package:portfolio_final_omar/ui/screens/admin/admin.dart';
 import 'package:portfolio_final_omar/ui/screens/admin/login.dart';
-import 'package:portfolio_final_omar/ui/screens/admin/project_list.dart';
 import 'package:portfolio_final_omar/ui/screens/splash_screen.dart';
+import 'package:portfolio_final_omar/ui/screens/unknown_page.dart';
 import 'package:portfolio_final_omar/utils/__colors.dart';
-import 'package:material_color_generator/material_color_generator.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'firebase_options.dart';
+import 'package:get/get.dart';
+import 'landing_page.dart';
 
 void main() async {
+  setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -35,9 +37,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Omar Fahim',
+      title: 'Omar Fahim | Portfolio',
       themeMode: ThemeMode.dark,
       theme: ThemeData(primaryColor: MyColors.primary, fontFamily: 'Rubik'),
       darkTheme: ThemeData(
@@ -46,16 +48,47 @@ class MyApp extends StatelessWidget {
           primaryColor: generateMaterialColor(color: MyColors.primary),
           colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.blueGrey, secondary: MyColors.accent),
           textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontFamily: 'RobotoSlab'))),
-      initialRoute: MyRoutes.portfolio,
-      routes: {
-        MyRoutes.splashScreen: (context) => const SplashScreen(),
-        MyRoutes.portfolio: (context) => const Portfolio(),
-        MyRoutes.login: (context) => const Login(),
-        MyRoutes.admin: (context) => const Admin(),
-        MyRoutes.newProject: (context) => const AddProject(),
-        MyRoutes.newBlog: (context) => const Login(),
-        MyRoutes.worksList: (context) => const ProjectList(),
-      },
+      initialRoute: '/',
+      defaultTransition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 20),
+      unknownRoute: GetPage(name: '/error', page: () => const UnknownPage()),
+      getPages: [
+        GetPage(name: '/', page: () => const WelcomeScreen(), transition: Transition.fadeIn, transitionDuration: const Duration(milliseconds: 20)),
+        GetPage(name: '/login', page: () => const Login(), transition: Transition.fadeIn, curve: Curves.linear, transitionDuration: const Duration(milliseconds: 20)),
+        GetPage(
+            name: '/admin',
+            // page: () {
+            //   debugPrint('User Data :');
+            //   debugPrint(UserModel.user.username);
+            //   debugPrint(UserModel.user.password);
+            //   if (UserModel.isLoggedIn() == true) {
+            //     return const Admin();
+            //   }
+            //   return const Login();
+            // },
+            page: () => adminLoginCheck(),
+            transition: Transition.fadeIn,
+            curve: Curves.linear,
+            transitionDuration: const Duration(milliseconds: 20)),
+        GetPage(name: '/:pageName', page: () => const LandingPage(), transition: Transition.fadeIn, curve: Curves.linear, transitionDuration: const Duration(milliseconds: 20)),
+        GetPage(
+            name: '/:pageName/:pageData',
+            page: () => const LandingPage(),
+            transition: Transition.fadeIn,
+            curve: Curves.linear,
+            transitionDuration: const Duration(milliseconds: 20)),
+      ],
     );
+  }
+}
+
+adminLoginCheck() async {
+  debugPrint('User Data :');
+  debugPrint(UserModel.user.username);
+  debugPrint(UserModel.user.password);
+  if (UserModel.isLoggedIn() == true) {
+    const Admin();
+  } else {
+    Get.toNamed('/login');
   }
 }

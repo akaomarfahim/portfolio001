@@ -1,3 +1,18 @@
 {
-    "cmake.sourceDirectory": "D:/Flutter Projects/portfolio_final_omar/windows"
+    "cmake.sourceDirectory": "D:/Flutter Projects/portfolio_final_omar/windows",
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "aws.connect.psdb.cloud",
+            "driver": "MySQL",
+            "name": "ipinfra_ble_sql",
+            "connectString": "mysql -h aws.connect.psdb.cloud -u 6qk75amwhgl8x16nttx0 -p************ --ssl-mode=VERIFY_IDENTITY --ssl-ca=/etc/ssl/certs/ca-certificates.crt",
+            "username": "2dgaafaj81f20pyzuikp",
+            "database": "omarfahim-porfolio",
+            "password": "pscale_pw_bJlx3GVTzQBh2BoDZjHgbljYXiHw4wcqDPj63pKDuFS"
+        }
+    ]
 }

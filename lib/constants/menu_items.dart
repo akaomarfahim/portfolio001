@@ -7,3 +7,4 @@ Map<String, IconData> menu = {
   'Blog': (Icons.newspaper_outlined),
   'Contact': (Icons.contact_mail),
 };
+

@@ -4,30 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
 
-class ROOTMyTextField {
-  static Color background = Colors.white;
-  static EdgeInsets margin = const EdgeInsets.fromLTRB(10, 0, 10, 6);
-  static EdgeInsets? externalLabelPadding = EdgeInsets.zero;
+// class ROOTMyTextField {
+//   static Color background = Colors.white;
+//   static EdgeInsets margin = const EdgeInsets.fromLTRB(10, 0, 10, 6);
+//   static EdgeInsets? externalLabelPadding = EdgeInsets.zero;
 
-  // TextStyle
-  static TextStyle externalLabelTextStyle = const TextStyle(fontFamily: 'Ubuntu', fontWeight: FontWeight.w500, color: Colors.blue, fontStyle: FontStyle.normal);
-  static TextStyle textStyle = const TextStyle(fontStyle: FontStyle.normal);
-  static TextStyle labelStyle = const TextStyle(fontStyle: FontStyle.normal);
-  static TextStyle hintStyle = const TextStyle(fontStyle: FontStyle.normal);
-  static TextStyle errorStyle = const TextStyle(fontStyle: FontStyle.normal);
-  static TextStyle helperStyle = const TextStyle(fontStyle: FontStyle.normal);
-  static TextStyle prefixStyle = const TextStyle(fontStyle: FontStyle.normal);
-  static TextStyle suffixStyle = const TextStyle(fontStyle: FontStyle.normal);
-  static Color focusColor = Colors.amber.shade100;
-  static Color hoverColor = Colors.amber.shade100;
-  static const clearIconButton = Icon(Icons.clear_rounded, color: Color.fromRGBO(229, 57, 53, 1));
-  static const InputBorder inputBorder = OutlineInputBorder(borderSide: BorderSide.none);
-  static const InputBorder errorBorder = OutlineInputBorder(borderSide: BorderSide.none);
-  static const InputBorder focusedBorder = OutlineInputBorder(borderSide: BorderSide.none);
-  static InputBorder enabledBorder = const OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(8)));
-  static const InputBorder disabledBorder = OutlineInputBorder(borderSide: BorderSide.none);
-  static const InputBorder focusedErrorBorder = OutlineInputBorder(borderSide: BorderSide.none);
-}
+//   // TextStyle
+//   static TextStyle externalLabelTextStyle = const TextStyle(fontFamily: 'Ubuntu', fontWeight: FontWeight.w500, color: Colors.blue, fontStyle: FontStyle.normal);
+//   static TextStyle textStyle = const TextStyle(fontStyle: FontStyle.normal);
+//   static TextStyle labelStyle = const TextStyle(fontStyle: FontStyle.normal);
+//   static TextStyle hintStyle = const TextStyle(fontStyle: FontStyle.normal);
+//   static TextStyle errorStyle = const TextStyle(fontStyle: FontStyle.normal);
+//   static TextStyle helperStyle = const TextStyle(fontStyle: FontStyle.normal);
+//   static TextStyle prefixStyle = const TextStyle(fontStyle: FontStyle.normal);
+//   static TextStyle suffixStyle = const TextStyle(fontStyle: FontStyle.normal);
+//   static Color focusColor = Colors.amber.shade100;
+//   static Color hoverColor = Colors.amber.shade100;
+//   static const clearIconButton = Icon(Icons.clear_rounded, color: Color.fromRGBO(229, 57, 53, 1));
+//   static const InputBorder inputBorder = OutlineInputBorder(borderSide: BorderSide.none);
+//   static const InputBorder errorBorder = OutlineInputBorder(borderSide: BorderSide.none);
+//   static const InputBorder focusedBorder = OutlineInputBorder(borderSide: BorderSide.none);
+//   static InputBorder enabledBorder = const OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.all(Radius.circular(8)));
+//   static const InputBorder disabledBorder = OutlineInputBorder(borderSide: BorderSide.none);
+//   static const InputBorder focusedErrorBorder = OutlineInputBorder(borderSide: BorderSide.none);
+// }
+
+const TextStyle externallabelTextstyle = TextStyle(fontFamily: 'Rubik', fontWeight: FontWeight.w400, color: Colors.black, fontStyle: FontStyle.normal);
 
 class MyTextField extends StatefulWidget {
   /// InputBorder.none creates problem with the alignment between text nad icons of the textfield. try to avoid using InputBorder.none
@@ -123,14 +125,14 @@ class MyTextField extends StatefulWidget {
   MyTextField({
     super.key,
     required this.controller,
-    this.margin,
+    this.margin = const EdgeInsets.fromLTRB(10, 0, 10, 6),
     this.externalLabel,
-    this.externalLabelPadding,
-    this.externalLabelTextStyle,
+    this.externalLabelPadding = EdgeInsets.zero,
+    this.externalLabelTextStyle = externallabelTextstyle,
     this.enable = true,
     this.keyboardType,
-    this.maxlines,
-    this.minlines,
+    this.maxlines = 1,
+    this.minlines = 1,
     this.maxLength,
     this.obsecureText = false,
     this.isPasswordCompatible = false,
@@ -159,7 +161,7 @@ class MyTextField extends StatefulWidget {
     this.showCursor,
     this.cursorRadius,
     this.cursorColor,
-    this.backgroundColor,
+    this.backgroundColor = Colors.white,
     this.focusColor,
     this.hoverColor,
     this.prefixText,
@@ -176,19 +178,19 @@ class MyTextField extends StatefulWidget {
     this.helperStyle,
     // Border ---
     // this.showBorder = false,
-    this.inputBorder = ROOTMyTextField.inputBorder,
-    this.errorBorder = ROOTMyTextField.errorBorder,
-    this.focusedBorder = ROOTMyTextField.focusedBorder,
+    this.inputBorder = const OutlineInputBorder(borderSide: BorderSide.none),
+    this.errorBorder = const OutlineInputBorder(borderSide: BorderSide.none),
+    this.focusedBorder = const OutlineInputBorder(borderSide: BorderSide.none),
     this.enabledBorder,
-    this.disabledBorder = ROOTMyTextField.disabledBorder,
-    this.focusedErrorBorder = ROOTMyTextField.focusedErrorBorder,
+    this.disabledBorder = const OutlineInputBorder(borderSide: BorderSide.none),
+    this.focusedErrorBorder = const OutlineInputBorder(borderSide: BorderSide.none),
     this.icon,
     this.prefixIcon,
     this.suffixIcon,
     this.prefix,
     this.sufix,
     this.showClearIcon = false,
-    this.clearIcon = ROOTMyTextField.clearIconButton,
+    this.clearIcon = const Icon(Icons.clear_rounded, color: Color.fromRGBO(229, 57, 53, 1)),
     this.contentPadding,
     this.constraints,
   });
@@ -200,27 +202,27 @@ class MyTextField extends StatefulWidget {
 class _MyTextFieldState extends State<MyTextField> {
   bool _passwordVisible = false;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    widget.margin ??= ROOTMyTextField.margin;
-    widget.backgroundColor ??= ROOTMyTextField.background;
-    widget.externalLabelTextStyle ??= ROOTMyTextField.externalLabelTextStyle;
-    widget.enabledBorder ??= ROOTMyTextField.enabledBorder;
-    widget.textStyle ??= ROOTMyTextField.textStyle;
-    widget.labelStyle ??= ROOTMyTextField.labelStyle;
-    widget.hintStyle ??= ROOTMyTextField.hintStyle;
-    widget.errorStyle ??= ROOTMyTextField.errorStyle;
-    widget.helperStyle ??= ROOTMyTextField.helperStyle;
-    widget.prefixStyle ??= ROOTMyTextField.prefixStyle;
-    widget.suffixStyle ??= ROOTMyTextField.suffixStyle;
-    widget.focusColor ??= ROOTMyTextField.focusColor;
-    widget.hoverColor ??= ROOTMyTextField.hoverColor;
-    widget.externalLabelPadding ??= ROOTMyTextField.externalLabelPadding;
+  //   widget.margin ??= ROOTMyTextField.margin;
+  //   widget.backgroundColor ??= ROOTMyTextField.background;
+  //   widget.externalLabelTextStyle ??= ROOTMyTextField.externalLabelTextStyle;
+  //   widget.enabledBorder ??= ROOTMyTextField.enabledBorder;
+  //   widget.textStyle ??= ROOTMyTextField.textStyle;
+  //   widget.labelStyle ??= ROOTMyTextField.labelStyle;
+  //   widget.hintStyle ??= ROOTMyTextField.hintStyle;
+  //   widget.errorStyle ??= ROOTMyTextField.errorStyle;
+  //   widget.helperStyle ??= ROOTMyTextField.helperStyle;
+  //   widget.prefixStyle ??= ROOTMyTextField.prefixStyle;
+  //   widget.suffixStyle ??= ROOTMyTextField.suffixStyle;
+  //   widget.focusColor ??= ROOTMyTextField.focusColor;
+  //   widget.hoverColor ??= ROOTMyTextField.hoverColor;
+  //   widget.externalLabelPadding ??= ROOTMyTextField.externalLabelPadding;
 
-    if (widget.obsecureText || widget.isPasswordCompatible) widget.maxlines = 1;
-  }
+  //   if (widget.obsecureText || widget.isPasswordCompatible) widget.maxlines = 1;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +233,9 @@ class _MyTextFieldState extends State<MyTextField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (widget.externalLabel != null)
-            MyText(widget.externalLabel, textStyleEnforcement: true, textStyle: widget.externalLabelTextStyle, padding: widget.externalLabelPadding),
+            Container(
+                padding: const EdgeInsets.only(bottom: 4, left: 4),
+                child: MyText(widget.externalLabel, textStyleEnforcement: true, textStyle: widget.externalLabelTextStyle, padding: widget.externalLabelPadding)),
           TextFormField(
             enabled: widget.enable,
             readOnly: !widget.enable,
@@ -254,7 +258,7 @@ class _MyTextFieldState extends State<MyTextField> {
             style: widget.textStyle,
             showCursor: widget.showCursor,
             cursorRadius: widget.cursorRadius,
-            cursorColor: (widget.cursorColor == null) ? widget.cursorColor : Theme.of(context).primaryColor,
+            cursorColor: (widget.cursorColor != null) ? widget.cursorColor : Theme.of(context).primaryColor,
             validator: (widget.customValidate == null)
                 ? (value) => (widget.required && (value == null || value.isEmpty))
                     ? 'field must be filled'

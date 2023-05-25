@@ -14,9 +14,6 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, Tar
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 
-class FirebaseConnection {
-  static DatabaseReference connect = FirebaseDatabase.instance.ref('portfolio');
-}
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {

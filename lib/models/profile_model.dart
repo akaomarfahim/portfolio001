@@ -1,10 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:firebase_database/firebase_database.dart';
 
-import 'package:portfolio_final_omar/firebase_options.dart';
+import '../backend/Firebase/firebase_backend.dart';
 
 class ProfileModel {
   static ProfileModel? profile;
@@ -67,7 +65,7 @@ class ProfileModel {
 
   static getData() async {
     try {
-      DatabaseReference ref = FirebaseConnection.connect;
+      DatabaseReference ref = FirebaseAPI.connect;
       final snapshot = await ref.child('profile').get();
       return profile = ProfileModel.fromMap(Map<String, dynamic>.from(snapshot.value as Map));
     } catch (e) {

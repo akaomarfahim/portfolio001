@@ -1,11 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:firebase_database/firebase_database.dart';
-
-import 'package:portfolio_final_omar/firebase_options.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__toast.dart';
+
+import '../backend/Firebase/firebase_backend.dart';
 
 class WorksModel {
   static List<WorksModel> items = [];
@@ -25,7 +23,7 @@ class WorksModel {
   String? urlLiveDemo;
   String? urlPlayStore;
   String? urlAppleStore;
-  String? otherDetails;
+  String? presentation;
   WorksModel({
     this.key,
     this.imageUrl,
@@ -42,11 +40,11 @@ class WorksModel {
     this.urlLiveDemo,
     this.urlPlayStore,
     this.urlAppleStore,
-    this.otherDetails,
+    this.presentation,
   });
 
   static getData() async {
-    DatabaseReference ref = FirebaseConnection.connect;
+    DatabaseReference ref = FirebaseAPI.connect;
     final snapshot = await ref.child('works').get();
     if (snapshot.exists) {
       try {
@@ -65,7 +63,7 @@ class WorksModel {
 
   static removeItem(int id) async {
     try {
-      DatabaseReference ref = FirebaseConnection.connect.child('works');
+      DatabaseReference ref = FirebaseAPI.connect.child('works');
       await ref.child(id.toString()).remove();
       myToast('Item removed');
     } catch (e) {
@@ -90,7 +88,7 @@ class WorksModel {
       'urlLiveDemo': urlLiveDemo,
       'urlPlayStore': urlPlayStore,
       'urlAppleStore': urlAppleStore,
-      'otherDetails': otherDetails,
+      'presentation': presentation,
     };
   }
 
@@ -111,7 +109,7 @@ class WorksModel {
       urlLiveDemo: map['urlLiveDemo'] != null ? map['urlLiveDemo'] as String : null,
       urlPlayStore: map['urlPlayStore'] != null ? map['urlPlayStore'] as String : null,
       urlAppleStore: map['urlAppleStore'] != null ? map['urlAppleStore'] as String : null,
-      otherDetails: map['otherDetails'] != null ? map['otherDetails'] as String : null,
+      presentation: map['presentation'] != null ? map['presentation'] as String : null,
     );
   }
 
@@ -121,7 +119,7 @@ class WorksModel {
 
   @override
   String toString() {
-    return 'WorksModel(key: $key, imageUrl: $imageUrl, publisedDate: $publisedDate, title: $title, motto: $motto, category: $category, projectDuration: $projectDuration, projectPlatform: $projectPlatform, toolsUsed: $toolsUsed, features: $features, description: $description, urlDownload: $urlDownload, urlLiveDemo: $urlLiveDemo, urlPlayStore: $urlPlayStore, urlAppleStore: $urlAppleStore, otherDetails: $otherDetails)';
+    return 'WorksModel(key: $key, imageUrl: $imageUrl, publisedDate: $publisedDate, title: $title, motto: $motto, category: $category, projectDuration: $projectDuration, projectPlatform: $projectPlatform, toolsUsed: $toolsUsed, features: $features, description: $description, urlDownload: $urlDownload, urlLiveDemo: $urlLiveDemo, urlPlayStore: $urlPlayStore, urlAppleStore: $urlAppleStore, presentation: $presentation)';
   }
 
   @override
@@ -143,7 +141,7 @@ class WorksModel {
         other.urlLiveDemo == urlLiveDemo &&
         other.urlPlayStore == urlPlayStore &&
         other.urlAppleStore == urlAppleStore &&
-        other.otherDetails == otherDetails;
+        other.presentation == presentation;
   }
 
   @override
@@ -163,7 +161,7 @@ class WorksModel {
         urlLiveDemo.hashCode ^
         urlPlayStore.hashCode ^
         urlAppleStore.hashCode ^
-        otherDetails.hashCode;
+        presentation.hashCode;
   }
 
   WorksModel copyWith({
@@ -182,7 +180,7 @@ class WorksModel {
     String? urlLiveDemo,
     String? urlPlayStore,
     String? urlAppleStore,
-    String? otherDetails,
+    String? presentation,
   }) {
     return WorksModel(
       key: key ?? this.key,
@@ -200,7 +198,7 @@ class WorksModel {
       urlLiveDemo: urlLiveDemo ?? this.urlLiveDemo,
       urlPlayStore: urlPlayStore ?? this.urlPlayStore,
       urlAppleStore: urlAppleStore ?? this.urlAppleStore,
-      otherDetails: otherDetails ?? this.otherDetails,
+      presentation: presentation ?? this.presentation,
     );
   }
 }

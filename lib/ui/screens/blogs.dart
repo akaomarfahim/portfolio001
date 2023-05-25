@@ -1,14 +1,13 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:portfolio_final_omar/constants/root.dart';
-import 'package:portfolio_final_omar/ui/screens/blog_details.dart';
-import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:portfolio_final_omar/models/blog_model.dart';
 import 'package:portfolio_final_omar/ui/screens/splash_screen.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
+import '../../backend/Firebase/firebase_backend.dart';
 import '../../constants/def.dart';
-import '../../constants/global_keys.dart';
-import '../../providers/screen_provider.dart';
 import '../../utils/__screen.dart';
 import '../../widgets/widget_default/__hover.dart';
 
@@ -30,7 +29,12 @@ class _BlogsState extends State<Blogs> {
 
   loadData() async {
     setState(() => isLoadingComplete = false);
-    await BlogModel.getData();
+    DatabaseReference ref = FirebaseAPI.connect.child('blogs');
+    ref.onValue.listen((event) async {
+      await BlogModel.getData();
+      setState(() {});
+    });
+
     setState(() => isLoadingComplete = true);
   }
 
@@ -39,40 +43,27 @@ class _BlogsState extends State<Blogs> {
     return !isLoadingComplete
         ? const SplashScreen()
         : BlogModel.items.isEmpty
-            ? Center(child: MyText('Nothing to show', textColor: Colors.white, fontWeight: FontWeight.w500))
+            ? const Center(child: MyText('Nothing to show', textColor: Colors.white, fontWeight: FontWeight.w500))
             : Container(
                 height: double.infinity,
                 width: double.infinity,
                 color: Colors.grey.shade300,
-                // alignment: Alignment.center,
-                // padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
-                // color: Colors.white,
                 child: SingleChildScrollView(
-                  key: MyGlobalKey.blogsKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MyText('Recent Posts',
-                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                          alignment: Alignment.centerLeft,
-                          textColor: Colors.black87,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500),
+                      const MyText('Recent Posts',
+                          padding: EdgeInsets.fromLTRB(20, 30, 20, 15), alignment: Alignment.centerLeft, textColor: Colors.black87, fontSize: 24, fontWeight: FontWeight.w500),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 0, 40, 10),
-                        child: Wrap(
-                          alignment: WrapAlignment.start,
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          runAlignment: WrapAlignment.start,
-                          spacing: 30,
-                          runSpacing: 30,
-                          children: [
-                            for (int i = 0; i < BlogModel.items.length; i++) BlogItem(item: BlogModel.items[i]),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20)
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                          child: Wrap(
+                              alignment: WrapAlignment.start,
+                              crossAxisAlignment: WrapCrossAlignment.start,
+                              runAlignment: WrapAlignment.start,
+                              spacing: 20,
+                              runSpacing: 20,
+                              children: BlogModel.items.map((e) => BlogItem(item: e)).toList().reversed.toList())),
                     ],
                   ),
                 ),
@@ -82,23 +73,20 @@ class _BlogsState extends State<Blogs> {
 
 class BlogItem extends StatelessWidget {
   final BlogModel item;
-  const BlogItem({
-    Key? key,
-    required this.item,
-  }) : super(key: key);
+  const BlogItem({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double width = context.isMobile
         ? MediaQuery.of(context).size.width
         : Screen.isDesktop(context)
-            ? Screen.width(context) * 0.22
+            ? Screen.width(context) * 0.24
             : 280;
     double height = 220;
     return OnHover(
         transform: Matrix4.identity()..scale(1.03),
         builder: (isHovered) => InkWell(
-            onTap: () => context.read<ScreenProvider>().setPage(BlogDetails(item: item)),
+            onTap: () => Get.toNamed('/blogs/${item.key}'),
             child: SizedBox(
               width: width,
               child: Column(children: [

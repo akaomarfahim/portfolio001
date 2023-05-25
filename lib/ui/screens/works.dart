@@ -1,13 +1,12 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:portfolio_final_omar/constants/global_keys.dart';
+import 'package:get/get.dart';
+import 'package:portfolio_final_omar/backend/Firebase/firebase_backend.dart';
 import 'package:portfolio_final_omar/constants/root.dart';
 import 'package:portfolio_final_omar/models/works_model.dart';
 import 'package:portfolio_final_omar/ui/screens/splash_screen.dart';
-import 'package:portfolio_final_omar/ui/screens/work_details.dart';
-import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../../constants/def.dart';
-import '../../providers/screen_provider.dart';
 import '../../utils/__screen.dart';
 import '../../widgets/widget_default/__hover.dart';
 import '../../widgets/widget_default/__text.dart';
@@ -30,7 +29,11 @@ class _WorksState extends State<Works> {
 
   loadData() async {
     setState(() => isLoadingComplete = false);
-    await WorksModel.getData();
+    DatabaseReference ref = FirebaseAPI.connect.child('works');
+    ref.onValue.listen((event) async {
+      await WorksModel.getData();
+      setState(() {});
+    });
     setState(() => isLoadingComplete = true);
   }
 
@@ -39,37 +42,35 @@ class _WorksState extends State<Works> {
     return !isLoadingComplete
         ? const SplashScreen()
         : WorksModel.items.isEmpty
-            ? Center(child: MyText('Nothing to show', textColor: Colors.white, fontWeight: FontWeight.w500))
-            : Container(
-                height: double.infinity,
-                width: double.infinity,
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.only(top: 40),
-                // color: Colors.white,
-                child: SingleChildScrollView(
-                    key: MyGlobalKey.worksKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        MyText('Recent Works',
-                            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                            alignment: Alignment.centerLeft,
-                            textColor: Colors.grey.shade200,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500),
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                            child: Wrap(
-                              spacing: 20,
-                              runSpacing: 20,
-                              children: [
-                                for (int i = 0; i < WorksModel.items.length; i++) ItemWithPhotoHoverAndBottomBox(item: WorksModel.items[i]),
-                              ],
-                            )),
-                        const SizedBox(height: 20)
-                      ],
-                    )));
+            ? const Center(child: MyText('Nothing to show', textColor: Colors.white, fontWeight: FontWeight.w500))
+            : Stack(
+                children: [
+                  // Opacity(opacity: 0.08, child: Image.asset('asset/images/solar.gif', height: double.infinity, width: double.infinity, fit: BoxFit.cover)),
+                  Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(top: 40),
+                      // color: Colors.white,
+                      child: SingleChildScrollView(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          MyText('Recent Works',
+                              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                              alignment: Alignment.centerLeft,
+                              textColor: Colors.grey.shade200,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500),
+                          Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                              child: Wrap(spacing: 20, runSpacing: 20, children: WorksModel.items.map((e) => ItemWithPhotoHoverAndBottomBox(item: e)).toList().reversed.toList())),
+                          const SizedBox(height: 20)
+                        ],
+                      ))),
+                ],
+              );
   }
 }
 
@@ -82,16 +83,16 @@ class ItemWithPhotoHoverAndBottomBox extends StatelessWidget {
     double width = context.isMobile
         ? MediaQuery.of(context).size.width
         : Screen.isDesktop(context)
-            ? 300
+            ? Screen.width(context) * 0.24
             : 280;
-
     double height = 220;
     return OnHover(
         transform: Matrix4.identity()..scale(1.03),
         builder: (isHovered) => SizedBox(
               width: width,
               child: InkWell(
-                  onTap: () => context.read<ScreenProvider>().setPage(WorkDetails(item: item)),
+                  // onTap: () => context.read<ScreenProvider>().setPage(WorkDetails(item: item)),
+                  onTap: () => Get.toNamed('/works/${item.key}'),
                   child: Column(children: [
                     Stack(
                       clipBehavior: Clip.none,
@@ -107,9 +108,8 @@ class ItemWithPhotoHoverAndBottomBox extends StatelessWidget {
                             alignment: Alignment.center,
                             duration: const Duration(milliseconds: 400),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.vertical(top: Radius.circular(Def.cardBorderRadius)),
-                              color: isHovered ? Colors.amber.shade400.withOpacity(0.7) : Colors.transparent,
-                            )),
+                                borderRadius: const BorderRadius.vertical(top: Radius.circular(Def.cardBorderRadius)),
+                                color: isHovered ? Colors.amber.shade400.withOpacity(0.7) : Colors.transparent)),
                         Positioned(
                             top: 0,
                             left: 20,
@@ -117,15 +117,17 @@ class ItemWithPhotoHoverAndBottomBox extends StatelessWidget {
                                 opacity: isHovered ? 1 : 0,
                                 duration: const Duration(milliseconds: 600),
                                 child: Container(
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                      color: Colors.redAccent,
-                                      boxShadow: [BoxShadow(blurRadius: 8, spreadRadius: 1, color: Colors.black54, offset: Offset.fromDirection(1, 3))],
-                                      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(Def.cardBorderRadius))),
-                                  // width: 100,
-                                  child: MyText(item.category,
-                                      fontSize: 12, alignment: Alignment.center, textAlign: TextAlign.center, padding: const EdgeInsets.symmetric(horizontal: 10), maxLines: 1),
-                                ))),
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        color: Colors.redAccent,
+                                        boxShadow: [BoxShadow(blurRadius: 8, spreadRadius: 1, color: Colors.black54, offset: Offset.fromDirection(1, 3))],
+                                        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(Def.cardBorderRadius))),
+                                    child: MyText(item.category,
+                                        fontSize: 12,
+                                        alignment: Alignment.center,
+                                        textAlign: TextAlign.center,
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        maxLines: 1)))),
                         AnimatedOpacity(
                             opacity: isHovered ? 1 : 0,
                             duration: const Duration(milliseconds: 600),

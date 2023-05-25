@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_final_omar/ui/screens/blog.dart';
+import 'package:portfolio_final_omar/ui/screens/blogs.dart';
 import 'package:portfolio_final_omar/ui/screens/contact.dart';
 import 'package:portfolio_final_omar/ui/screens/home.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';

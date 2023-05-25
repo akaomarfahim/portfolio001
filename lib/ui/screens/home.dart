@@ -1,10 +1,12 @@
 import 'dart:developer';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio_final_omar/ui/screens/splash_screen.dart';
 import 'package:portfolio_final_omar/utils/__colors.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__hover.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:portfolio_final_omar/widgets/widget_default/__text.dart';
+import '../../backend/Firebase/firebase_backend.dart';
 import '../../models/profile_model.dart';
 import '../../utils/listtostring_stringtolist.dart';
 import '../../widgets/widget_default/__button.dart';
@@ -26,7 +28,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    ROOTMyText.alignment = Alignment.center;
 
     loadData();
   }
@@ -35,69 +36,83 @@ class _HomeState extends State<Home> {
     if (mounted) setState(() => isLoadingComplete = false);
     log('INIT Firebase');
 
-    profile = await ProfileModel.getData();
+    // profile = await ProfileModel.getData();
+
+    DatabaseReference ref = FirebaseAPI.connect;
+    log('INIT Firebase');
+    final snapshot = await ref.child('profile').get();
+    log('INIT Firebase');
+    profile = ProfileModel.fromMap(Map<String, dynamic>.from(snapshot.value as Map));
+    log('INIT Firebase');
+
     if (profile.animatedTexts.isNotEmpty) {
+      log('INIT Firebase');
+
       animatedTextList.clear();
       animatedTextList = await stringtoList(string: profile.animatedTexts, breaker: ',');
     }
 
+    log('INIT Firebase $isLoadingComplete');
     if (mounted) setState(() => isLoadingComplete = true);
+    log('INIT Firebase $isLoadingComplete');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height,
-        alignment: Alignment.center,
-        child: !isLoadingComplete
-            ? const SplashScreen()
-            : Stack(
-                alignment: Alignment.center,
-                children: [
-                  Image.asset('asset/images/matrix.gif', height: double.infinity, width: double.infinity, fit: BoxFit.cover),
-                  Container(height: double.infinity, width: double.infinity, color: MyColors.primary.withOpacity(0.9)),
-                  SingleChildScrollView(
-                      // key: MyGlobalKey.homeKey,
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                          radius: 70,
-                          backgroundColor: MyColors.accent,
-                          // backgroundImage: const ExactAssetImage('asset/images/avatar.png'),
-                          child:
-                              Padding(padding: const EdgeInsets.all(4), child: ClipRRect(borderRadius: BorderRadius.circular(100), child: Image.asset('asset/images/avatar.png')))),
-                      MyText(profile.name,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 30,
-                          margin: const EdgeInsets.only(top: 15),
-                          textColor: Colors.white,
-                          fontFamily: 'Rubik',
-                          fontWeight: FontWeight.bold),
-                      MyText(profile.tagLine,
-                          margin: const EdgeInsets.only(top: 10),
-                          textStyleEnforcement: true,
-                          textStyle: TextStyle(fontSize: 16, fontFamily: 'SofiaSans', fontStyle: FontStyle.normal, fontWeight: FontWeight.w700, color: Colors.grey.shade100)),
-                      const SizedBox(height: 20),
-                      animatedTextAboutMe(),
-                      const SizedBox(height: 20),
-                      ScoialIconSection(profile: profile),
-                      const SizedBox(height: 40),
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        runSpacing: 10,
-                        spacing: 10,
-                        children: [
-                          // hireMeButton('View CV', () => launchUrl(Uri.parse(ROOT.cvUrlView))),
-                          hireMeButton('Download resume', () => launchUrl(Uri.parse(profile.downloadCv))),
-                          hireMeButton('Hire me', () => launchUrl(Uri.parse(profile.hireMe))),
-                        ],
-                      )
-                    ],
-                  ))
-                ],
-              ));
+    return Scaffold(
+      body: Container(
+          height: MediaQuery.of(context).size.height,
+          alignment: Alignment.center,
+          child: !isLoadingComplete
+              ? const SplashScreen()
+              : Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.asset('asset/images/matrix.gif', height: double.infinity, width: double.infinity, fit: BoxFit.cover),
+                    Container(height: double.infinity, width: double.infinity, color: MyColors.primary.withOpacity(0.9)),
+                    SingleChildScrollView(
+                        // key: MyGlobalKey.homeKey,
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                            radius: 70,
+                            backgroundColor: MyColors.accent,
+                            // backgroundImage: const ExactAssetImage('asset/images/avatar.png'),
+                            child: Padding(
+                                padding: const EdgeInsets.all(4), child: ClipRRect(borderRadius: BorderRadius.circular(100), child: Image.asset('asset/images/avatar.png')))),
+                        MyText(profile.name,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 30,
+                            margin: const EdgeInsets.only(top: 15),
+                            textColor: Colors.white,
+                            fontFamily: 'Rubik',
+                            fontWeight: FontWeight.bold),
+                        MyText(profile.tagLine,
+                            margin: const EdgeInsets.only(top: 10),
+                            textStyleEnforcement: true,
+                            textStyle: TextStyle(fontSize: 16, fontFamily: 'SofiaSans', fontStyle: FontStyle.normal, fontWeight: FontWeight.w700, color: Colors.grey.shade100)),
+                        const SizedBox(height: 20),
+                        animatedTextAboutMe(),
+                        const SizedBox(height: 20),
+                        ScoialIconSection(profile: profile),
+                        const SizedBox(height: 40),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          runSpacing: 10,
+                          spacing: 10,
+                          children: [
+                            // hireMeButton('View CV', () => launchUrl(Uri.parse(ROOT.cvUrlView))),
+                            hireMeButton('Download resume', () => launchUrl(Uri.parse(profile.downloadCv))),
+                            hireMeButton('Hire me', () => launchUrl(Uri.parse(profile.hireMe))),
+                          ],
+                        )
+                      ],
+                    ))
+                  ],
+                )),
+    );
   }
 
   animatedTextAboutMe() {
